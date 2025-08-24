@@ -1,236 +1,189 @@
-// script/containerContentContent.js
-  const container = document.querySelector('.container--content');
+// === Config ===
+const ROOT = document.querySelector(".container--content");
+const BASE = "https://meowrhino.neocities.org/";
+const DISABLED_CATEGORIES = new Set(["hidden"]); // añade aquí otras que quieras ocultar
+// const CATEGORY_ORDER = ['main quests','side quests',"meowrhino's world",'fun apps','unfinished apps','texts','misc']; // opcional
 
-    // Factor aleatorio
-    function getRandomFactor() {
-      const isMobile = window.matchMedia("(max-width: 600px)").matches;
-      if (isMobile) {
-          return 0.65 + Math.random() * 1.0;
-      }
-      return 0.85 + Math.random() * 1.2;
-    }
+// === Utilidades ===
+function normalizeLink(link) {
+  if (!link) return "#";
+  const s = String(link).trim();
+  if (/^(https?:|mailto:|tel:|\/\/|#)/i.test(s)) return s;
+  return new URL(s, BASE).toString();
+}
+function getRandomFactor() {
+  const isMobile = window.matchMedia("(max-width: 600px)").matches;
+  return isMobile ? 0.65 + Math.random() * 1.0 : 0.85 + Math.random() * 1.2;
+}
+function roman(n) {
+  return ["i", "ii", "iii", "iv", "v"][n - 1] || String(n);
+}
 
-  function getRomanIndex(num) {
-    switch (num) {
-      case 1: return "i";
-      case 2: return "ii";
-      case 3: return "iii";
-      case 4: return "iv";
-      case 5: return "v";
-      default: return num;
-    }
+// === Núcleo: crear UNA nube dentro de un contenedor dado ===
+function createCloud(item, containerEl) {
+  const pre = document.createElement("div");
+  pre.className = "pre-box";
+  const box = document.createElement("div");
+  box.className = "box box--title";
+
+  const links = Array.isArray(item.links) ? item.links : [];
+
+  if (links.length <= 1) {
+    const h5 = document.createElement("h5");
+    const a = document.createElement("a");
+    a.href = normalizeLink(links[0] || "#");
+    a.textContent = item.name || "(sin nombre)";
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    h5.appendChild(a);
+    box.appendChild(h5);
+  } else {
+    box.classList.add("flex-column");
+    const h4 = document.createElement("h4");
+    h4.textContent = item.name || "(sin nombre)";
+    box.appendChild(h4);
+
+    const p = document.createElement("p");
+    links.forEach((lnk, i) => {
+      const span = document.createElement("span");
+      const a = document.createElement("a");
+      a.href = normalizeLink(lnk);
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = roman(i + 1);
+      span.appendChild(a);
+      p.appendChild(span);
+    });
+    box.appendChild(p);
   }
 
-  function createElement(item) {
-    const preBox = document.createElement('div');
-    preBox.classList.add('pre-box');
+  // ---- tamaño y posición con vw/vh (sin tocar tu CSS global) ----
+  // usamos aspect-ratio para mantener la forma; ancho en vw
+  const widthVW = (12 + Math.random() * 12) * getRandomFactor(); // ~12–24vw
+  pre.style.width = `${widthVW}vw`;
+  pre.style.aspectRatio = "1.55 / 1"; // height = width / 1.55
+  pre.style.position = "absolute";
 
-    const box = document.createElement('div');
-    box.classList.add('box', 'box--title');
+  // para el bounding vertical en vh necesitamos saber la altura equivalente en vh:
+  const heightVH = (widthVW * (window.innerWidth / window.innerHeight)) / 1.55;
+  const leftVW = Math.max(0, Math.random() * (100 - widthVW));
+  const topVH = Math.max(0, Math.random() * (100 - heightVH));
 
-      // 1) Comprobamos si hay varios enlaces o solo uno
-      const linksArray = item.links || [];
-      if (linksArray.length <= 1) {
-          // ---- SOLO UN ENLACE ----
-          const h5 = document.createElement('h5');
-          const linkElement = document.createElement('a');
-          linkElement.href = linksArray[0] || "#";
-          linkElement.textContent = item.name;
-          linkElement.target = "_blank";
-          h5.appendChild(linkElement);
-          box.appendChild(h5);
+  pre.style.left = `${leftVW}vw`;
+  pre.style.top = `${topVH}vh`;
 
-      } else {
-          // ---- VARIOS ENLACES ----
-          // Creamos el h4 con el nombre
-          const h4 = document.createElement('h4');
-          box.classList.add('flex-column');
-          
-          h4.textContent = item.name;
-          box.appendChild(h4);
-          
+  // el contenido ocupa todo el pre
+  box.style.width = "100%";
+  box.style.height = "100%";
 
-          // Debajo, un <p> con spans para cada enlace
-          const p = document.createElement('p');
-          linksArray.forEach((link, index) => {
-              const span = document.createElement('span');
-              const a = document.createElement('a');
-              a.target = "_blank";
-              a.href = link;
-              // index comienza en 0, así que para getRomanIndex lo pasamos como (index+1)
-              a.textContent = getRomanIndex(index + 1);
-              span.appendChild(a);
-              p.appendChild(span);
-          });
-          box.appendChild(p);
-      }
+  pre.appendChild(box);
+  containerEl.appendChild(pre);
+}
 
-      // Ajustes de estilo y dimensiones
-      box.style.height = 'inherit';
-      box.style.width = 'inherit';
-      preBox.appendChild(box);
+// === Recolocar (en resize/zoom) todas las nubes con vw/vh ===
+function updateAll() {
+  document.querySelectorAll(".clouds-container").forEach((cont) => {
+    cont.querySelectorAll(".pre-box").forEach((pre) => {
+      // recalcular solo el top (vh) porque el aspect depende de la relación W/H del viewport
+      const widthVW = parseFloat(pre.style.width);
+      const heightVH =
+        (widthVW * (window.innerWidth / window.innerHeight)) / 1.55;
+      const leftVW = parseFloat(pre.style.left) || 0;
+      const topVH = Math.max(
+        0,
+        Math.min(parseFloat(pre.style.top) || 0, 100 - heightVH)
+      );
+      pre.style.left = `${leftVW}vw`;
+      pre.style.top = `${topVH}vh`;
+    });
+  });
+}
 
-      // Aplicar un tamaño aleatorio
-      const randomFactor = getRandomFactor();
-      const baseWidth = 200;
-      const newWidth = baseWidth * randomFactor;
-      const newHeight = newWidth / 1.55;
-      preBox.style.width = `${newWidth}px`;
-      preBox.style.height = `${newHeight}px`;
+// throttle sencillo
+function throttle(fn, ms) {
+  let lock = false;
+  return (...args) => {
+    if (lock) return;
+    lock = true;
+    fn(...args);
+    setTimeout(() => (lock = false), ms);
+  };
+}
 
-      container.appendChild(preBox);
+function watchZoomResize() {
+  let last = window.devicePixelRatio;
+  setInterval(() => {
+    if (window.devicePixelRatio !== last) {
+      last = window.devicePixelRatio;
+      updateAll();
     }
+  }, 200);
+  window.addEventListener("resize", throttle(updateAll, 200));
+}
 
-// Generar elementos dinámicamente desde el JSON en GitHub Pages
+// === Render por categorías: crea un contenedor 100vh por categoría ===
+function renderByCategory(rawData) {
+  // 1) Normaliza a {cat: [items]}
+  let byCat = {};
+  if (Array.isArray(rawData)) {
+    rawData.forEach(it => {
+      const c = it.category || 'uncategorized';
+      (byCat[c] ||= []).push(it);
+    });
+  } else {
+    byCat = rawData || {};
+  }
+
+  // 2) Orden opcional
+  let entries = Object.entries(byCat);
+  if (typeof CATEGORY_ORDER !== 'undefined' && Array.isArray(CATEGORY_ORDER) && CATEGORY_ORDER.length) {
+    const rank = new Map(CATEGORY_ORDER.map((c, i) => [c, i]));
+    entries.sort((a, b) => (rank.get(a[0]) ?? 1e9) - (rank.get(b[0]) ?? 1e9));
+  }
+
+  // 3) Filtra desactivadas (p. ej. "hidden")
+  const enabled = entries.filter(([cat]) => !DISABLED_CATEGORIES.has(cat));
+
+  // 4) *** Alto automático ***
+  // Cada sección mide 100vh -> total = N * 100vh
+  const totalVh = enabled.length * 100;
+  // Fijamos la altura en el propio contenedor de contenido (igual que hacías con 500vh)
+  ROOT.style.height = `${totalVh}vh`;
+  // Por si el wrapper .container tuviera height:100vh, le damos un mínimo para que no recorte
+  const wrapper = ROOT.closest('.container');
+  if (wrapper) wrapper.style.minHeight = `${totalVh}vh`;
+
+  // 5) Pinta secciones 100vh por categoría
+  ROOT.innerHTML = '';
+  enabled.forEach(([category, items]) => {
+    const section = document.createElement('section');
+    section.className = 'category-section';
+    section.dataset.category = category;
+
+    // sección pantalla completa sin depender del CSS externo
+    section.style.height = '100vh';
+    section.style.width = '100vw';
+    section.style.position = 'relative';
+    section.style.overflow = 'hidden';
+
+    const clouds = document.createElement('div');
+    clouds.className = 'clouds-container';
+    clouds.style.position = 'relative';
+    clouds.style.width = '100%';
+    clouds.style.height = '100%';
+
+    (items || []).forEach(it => createCloud(it, clouds));
+
+    section.appendChild(clouds);
+    ROOT.appendChild(section);
+  });
+
+  updateAll();
+  watchZoomResize();
+}
+
+// === Inicio ===
 fetch("proyectos.json")
-  .then(res => res.json())
-  .then(items => {
-    items.forEach(item => createElement(item));
-    updateElements();
-    detectZoomOrScroll();
-  })
-  .catch(err => console.error("Error cargando proyectos:", err));
-
-    // Recalcula tamaños y posiciones
-    function updateElements() {
-      const elements = container.querySelectorAll('.pre-box');
-      const containerWidth = container.offsetWidth;
-      const containerHeight = container.offsetHeight;
-
-      elements.forEach(element => {
-        // Tamaño aleatorio
-        const randomFactor = getRandomFactor();
-        const baseWidth = 200;
-        const newWidth = baseWidth * randomFactor;
-        const newHeight = newWidth / 1.55;
-        element.style.width = `${newWidth}px`;
-        element.style.height = `${newHeight}px`;
-
-        // Posición aleatoria
-        const elementWidth = element.offsetWidth;
-        const elementHeight = element.offsetHeight;
-        const x = Math.floor(Math.random() * (containerWidth - elementWidth));
-        const y = Math.floor(Math.random() * (containerHeight - elementHeight));
-        element.style.left = `${x}px`;
-        element.style.top = `${y}px`;
-        element.style.position = 'absolute';
-      });
-    }
-
-  function throttle(func, limit) {
-    let inThrottle;
-    return function () {
-      if (!inThrottle) {
-        func.apply(this, arguments);
-        inThrottle = true;
-        setTimeout(() => (inThrottle = false), limit);
-      }
-    };
-  }
-
-  function detectZoomOrScroll() {
-    let lastZoom = window.devicePixelRatio;
-    let lastContainerWidth = container.offsetWidth;
-    let lastContainerHeight = container.offsetHeight;
-
-      // Detectar zoom
-      setInterval(() => {
-        if (window.devicePixelRatio !== lastZoom) {
-          lastZoom = window.devicePixelRatio;
-          // Actualizar solo si cambian las dimensiones del contenedor
-          if (
-            container.offsetWidth !== lastContainerWidth ||
-            container.offsetHeight !== lastContainerHeight
-          ) {
-            lastContainerWidth = container.offsetWidth;
-            lastContainerHeight = container.offsetHeight;
-            updateElements();
-          }
-        }
-      }, 200);
-
-      // Detectar scroll (solo posiciones con throttle)
-     /* window.addEventListener('scroll', throttle(updatePositions, 200));*/
-    }
-
-    // Limitar frecuencia de ejecución
-    function throttle(func, limit) {
-      let inThrottle;
-      return function () {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-          func.apply(context, args);
-          inThrottle = true;
-          setTimeout(() => (inThrottle = false), limit);
-        }
-      };
-    }
-
-    // Eventos
-    window.addEventListener('resize', throttle(updateElements, 200));
-
-    document.addEventListener('DOMContentLoaded', () => {
-      updateElements();  // Ajusta tamaños y posiciones al cargar
-      detectZoomOrScroll();
-    });
-
-/*
-// Aplicar posiciones y tamaños iniciales al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-    items.forEach(item => {
-        createElement(item.name, item.link);
-    });
-    updateElements(); // Aplicar posiciones y tamaños inicialmente
-    detectZoomOrScroll(); // Detectar zoom o scroll
-});
-*/
-
-/*
-// Detectar zoom o scroll y activar updateElements
-function detectZoomOrScroll() {
-    let lastZoom = window.devicePixelRatio;
-
-    // Detectar cambios de zoom
-    setInterval(() => {
-        if (window.devicePixelRatio !== lastZoom) {
-            lastZoom = window.devicePixelRatio;
-            updateElements();
-        }
-    }, 100);
-
-    // Detectar scroll
-    window.addEventListener('scroll', updateElements);
-}
-
-// Aplicar posiciones y tamaños iniciales al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-    items.forEach(item => {
-        createElement(item.name, item.link);
-    });
-    updateElements(); // Aplicar posiciones y tamaños inicialmente
-    detectZoomOrScroll(); // Detectar zoom o scroll
-});
-*/
-
-/*
-cosas traviesas:
-// Función para que el elemento cambie de posición al intentar atraparlo
-function addEscapeBehavior() {
-    const elements = container.querySelectorAll('.pre-box');
-    elements.forEach(element => {
-        element.addEventListener('mouseover', () => {
-            const containerWidth = container.offsetWidth;
-            const containerHeight = container.offsetHeight;
-            const elementWidth = element.offsetWidth;
-            const elementHeight = element.offsetHeight;
-
-            const x = Math.floor(Math.random() * (containerWidth - elementWidth));
-            const y = Math.floor(Math.random() * (containerHeight - elementHeight));
-
-            element.style.left = `${x}px`;
-            element.style.top = `${y}px`;
-        });
-    });
-}
-    */
+  .then((r) => r.json())
+  .then(renderByCategory)
+  .catch((e) => console.error("Error cargando proyectos:", e));

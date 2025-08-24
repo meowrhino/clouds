@@ -1,16 +1,1 @@
-cosas que faltan:
-las sombras detrás de la pre-box
-responsive de lo que tienes
-
-para la pagina de meowrhino en movil
-haz que al hacer click se hinche el meowrhino (o sea sw calcule el espacio que ha de tener)
-
-para meowrhino 
-puedo forzar que en movil se vea en vertical y pedir a la gente que fire el mocil?
-
-reminders
-hacer la web en 3 segmentos com 100vh y 100vw
-
-que en la izquierda haya un menu de desplazamiento o algo que tendiga que puedes ver mas cosas mas abajo igual un bocadillo que te diga que hagas acroll
-
-estas 3 partes tienen que estar en un container que sea su suma de height y en ese container tienen que estar los dots
+y ahora me gustaria eliminar todos los estilos inline del js que les aplique clases y revises bien el css para ordenarlo y añadir los estilos actuales que quede ordenadito todo y navegable

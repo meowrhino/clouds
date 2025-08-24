@@ -285,7 +285,21 @@
     --umbrella-color-3: #BB8493;
     --umbrella-color-4: #DBAFA0;
 
+    --sections: 1; /* número de pantallas; el JS puede actualizarlo dinámicamente */
+    --halo-scale: 1.06;
 }
+
+/* Todo lo que está dentro de la zona de contenido será responsive */
+.container--content h1 { font-size: clamp(28px, 6vw, 60px); }
+.container--content h2 { font-size: clamp(22px, 4.5vw, 40px); }
+.container--content h3 { font-size: clamp(18px, 3.5vw, 32px); }
+.container--content h4 { font-size: clamp(16px, 2.8vw, 24px); }
+.container--content h5 { font-size: clamp(14px, 2.2vw, 18px); }
+
+/* Si quieres también los enlaces dentro de nubes un pelín adaptativos */
+.container--content .box a { font-size: clamp(10px, 1.8vw, 18px); }
+
+/* Mantén tamaños del popup y el trigger tal cual están (no añado nada ahí) */
 
 html,
 body {
@@ -398,7 +412,7 @@ a {
 }
 
 .container {
-    height: 100vh;
+    min-height: 100dvh; /* permite que la página crezca con las secciones */
 }
 
 .container--title {
@@ -409,15 +423,16 @@ a {
 
 .container--content {
     display: flex;
+    flex-direction: column;
     position: relative;
-    height: 300vh !important;
-
+    height: auto; /* altura automática; las secciones marcan el alto total */
+    min-height: calc(var(--sections, 1) * 100dvh); /* el JS puede ajustar --sections */
 }
 
 body {
     margin: 0;
     background-color: var(--color-1);
-    height: 500vh;
+    min-height: 100dvh; /* permite scroll más allá del viewport */
 }
 
 .point {
@@ -454,15 +469,25 @@ body {
     position: absolute;
 }
 
+/* stacking: texto por encima; al pasar el ratón, traer nube al frente */
+.pre-box { z-index: 1; }
+.pre-box:hover,
+.pre-box:focus-within { z-index: 5; }
+.box { position: relative; z-index: 2; }
+
 .pre-box::before {
     content: "";
     position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(var(--halo-scale)); /* centra y escala halo */
     background-position: center;
-    width: 105%;
-    height: 110%;
+    width: 100%;
+    height: 100%;
     background-color: var(--color-3);
     clip-path: var(--nube);
     z-index: -1;
+    pointer-events: none;
 }
 
 .pre-box--shadow {
@@ -490,7 +515,7 @@ ideas para sombra en pre-box
     text-align: center;
 }
 
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
 
     .pre-box::before {
         width: 100%;
@@ -501,7 +526,7 @@ ideas para sombra en pre-box
     .box--palette {
         width: 90%;
     }
-}
+} */
 
 .box--palette {
     width: 90%;
@@ -542,17 +567,12 @@ ideas para sombra en pre-box
 
 .dot-container {
     position: absolute;
-    /* Or absolute, depending on your needs */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 500vh;
+    inset: 0;         /* top:0; right:0; bottom:0; left:0 */
+    width: 100%;
+    height: 100%;     /* sigue la altura del padre automáticamente */
     z-index: -1;
-    pointer-events: none;
-    /* This prevents the background from interfering with foreground interactions */
+    pointer-events: none; /* el fondo no intercepta clics */
     overflow: hidden;
-    /* Optional to avoid horizontal scroll if the background is animated */
-
 }
 
 .popup-trigger {
@@ -669,4 +689,22 @@ div.flex-column p {
     margin: 0;
     display: flex;
     gap: 5px;
+}
+
+
+/* Cada categoría ocupa una altura de viewport */
+.category-section {
+    height: 100dvh;
+    width: 100%;
+    position: relative;
+    overflow: visible;
+}
+
+/* Espacio de seguridad para que el borde blanco no se corte */
+.clouds-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 2vh 2vw;       /* margen interior superior/inferior y laterales */
+    box-sizing: border-box; /* la altura 100% incluye el padding */
 }
