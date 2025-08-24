@@ -1,65 +1,63 @@
-name: Extraer ainfo desde Neocities
+- name: Ejecuta scraper Python
+  run: |
+    python <<'PY'
+    import requests, json
+    from bs4 import BeautifulSoup, Comment
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 3 * * *' # cada día a las 3am UTC
+    url = "https://meowrhino.neocities.org/"
+    r = requests.get(url, timeout=30)
+    r.raise_for_status()
 
-jobs:
-  scrap:
-    runs-on: ubuntu-latest
+    # Usar .content + ensure_ascii=False para acentos OK
+    soup = BeautifulSoup(r.content, "html.parser")
 
-    steps:
-      - name: Clona tu repositorio
-        uses: actions/checkout@v3
+    cont = soup.find(id="proyectes")
+    if cont is None:
+        raise SystemExit("No se encontró #proyectes en la página")
 
-      - name: Instala BeautifulSoup
-        run: pip install requests beautifulsoup4
+    data = {}                 # dict: { "main quests": [ {name,links}, ... ], ... }
+    current_cat = None
+    current_name = None
+    current_links = []
 
-      - name: Ejecuta scraper Python
-        run: |
-          python <<EOF
-          import requests
-          from bs4 import BeautifulSoup
-          import json
-          from collections import defaultdict
-          import os
+    def flush():
+        nonlocal current_name, current_links
+        if current_name and current_links:
+            cat = current_cat or "uncategorized"
+            data.setdefault(cat, []).append({
+                "name": current_name,
+                "links": current_links
+            })
+        current_name = None
+        current_links = []
 
-          url = "https://meowrhino.neocities.org/"
-          response = requests.get(url)
-          soup = BeautifulSoup(response.text, "html.parser")
+    for el in cont.children:
+        # Comentarios HTML => nombre de categoría
+        if isinstance(el, Comment):
+            flush()
+            current_cat = el.strip()
+            if current_cat:
+                data.setdefault(current_cat, [])
+            continue
 
-          ainfos = soup.find_all("ainfo")
-          all_links = soup.find_all("a")
+        tag = getattr(el, "name", None)
+        if tag == "ainfo":
+            flush()
+            current_name = el.get_text(strip=True)
+            current_links = []
+        elif tag == "a" and current_name:
+            href = el.get("href")
+            if href:
+                current_links.append(href)
+        elif tag == "br":
+            flush()
+        else:
+            # ignorar textos/espacios/otros tags
+            pass
 
-          data = defaultdict(list)
-          current = None
+    # por si el último bloque no cerró con <br>
+    flush()
 
-          for el in soup.find(id="proyectes").children:
-              if el.name == "ainfo":
-                  current = el.get_text(strip=True)
-              elif el.name == "a" and current:
-                  href = el.get("href")
-                  if href:
-                      data[current].append(href)
-              elif el.name == "br":
-                  current = None
-
-          items = [{"name": k, "links": v} for k, v in data.items() if v]
-
-          with open("proyectos.json", "w", encoding="utf-8") as f:
-              json.dump(items, f, indent=2, ensure_ascii=False)
-          EOF
-
-      - name: Haz commit si hay cambios
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add proyectos.json || true
-          git diff --cached --quiet || git commit -m "actualiza proyectos desde Neocities"
-
-      - name: Sube a GitHub
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+    with open("proyectos.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+    PY
