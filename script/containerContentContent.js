@@ -42,8 +42,19 @@ function getRandomFactor() {
   const isMobile = window.matchMedia("(max-width: 600px)").matches;
   return isMobile ? 0.65 + Math.random() * 1.0 : 0.85 + Math.random() * 1.2;
 }
-function roman(n) {
-  return ["i", "ii", "iii", "iv", "v"][n - 1] || String(n);
+// Romanos hasta 3999 (minúsculas)
+function romanize(n) {
+  if (!Number.isFinite(n) || n <= 0) return String(n);
+  const table = [
+    ["M",1000],["CM",900],["D",500],["CD",400],
+    ["C",100],["XC",90],["L",50],["XL",40],
+    ["X",10],["IX",9],["V",5],["IV",4],["I",1]
+  ];
+  let res = "", num = Math.floor(n);
+  for (const [sym,val] of table) {
+    while (num >= val) { res += sym; num -= val; }
+  }
+  return res.toLowerCase();
 }
 
 // === Núcleo: crear UNA nube dentro de un contenedor dado ===
@@ -52,6 +63,12 @@ function createCloud(item, containerEl, category) {
   pre.className = "pre-box";
   const box = document.createElement("div");
   box.className = "box box--title";
+
+  // Compacta y centra el contenido de la nube
+  box.style.display = "flex";
+  box.style.flexDirection = "column";
+  box.style.alignItems = "center";
+  box.style.justifyContent = "center";
 
   const links = Array.isArray(item.links) ? item.links : [];
 
@@ -63,21 +80,36 @@ function createCloud(item, containerEl, category) {
     a.target = "_blank";
     a.rel = "noopener noreferrer";
     h5.appendChild(a);
+    h5.style.margin = "0";
+    a.style.display = "inline-block";
+    a.style.lineHeight = "1";
     box.appendChild(h5);
   } else {
     box.classList.add("flex-column");
     const h4 = document.createElement("h4");
+    h4.style.margin = "0 0 0.25em";
+    h4.style.lineHeight = "1.1";
     h4.textContent = item.name || "(sin nombre)";
     box.appendChild(h4);
 
     const p = document.createElement("p");
+    p.style.margin = "0";
+    p.style.display = "flex";
+    p.style.flexWrap = "wrap";
+    p.style.alignItems = "center";
+    p.style.justifyContent = "center";
+    p.style.gap = "6px";
+    p.style.lineHeight = "1";
+
     links.forEach((lnk, i) => {
       const span = document.createElement("span");
       const a = document.createElement("a");
       a.href = normalizeLink(lnk);
       a.target = "_blank";
       a.rel = "noopener noreferrer";
-      a.textContent = roman(i + 1);
+      a.style.display = "inline-block";
+      a.style.lineHeight = "1";
+      a.textContent = romanize(i + 1);
       span.appendChild(a);
       p.appendChild(span);
     });
@@ -86,15 +118,32 @@ function createCloud(item, containerEl, category) {
 
   // ---- tamaño y posición con vw/vh (sin tocar tu CSS global) ----
   // usamos aspect-ratio para mantener la forma; ancho en vw
-  const widthVW = (12 + Math.random() * 12) * getRandomFactor(); // ~12–24vw
+  const st = getCatStyle(category);
+  const factor = st.factorMin + Math.random() * (st.factorMax - st.factorMin);
+  const linkCount = links.length;
+  // tamaño base por categoría
+  let widthVW = (st.minVW + Math.random() * (st.maxVW - st.minVW)) * factor;
+  // si hay muchos enlaces, ensancha un poco (cap en +12vw)
+  if (linkCount > 5) widthVW += Math.min(12, (linkCount - 5) * 0.9);
   pre.style.width = `${widthVW}vw`;
   pre.style.aspectRatio = "1.55 / 1"; // height = width / 1.55
   pre.style.position = "absolute";
 
   // para el bounding vertical en vh necesitamos saber la altura equivalente en vh:
   const heightVH = (widthVW * (window.innerWidth / window.innerHeight)) / 1.55;
-  const leftVW = Math.max(0, Math.random() * (100 - widthVW));
-  const topVH = Math.max(0, Math.random() * (100 - heightVH));
+
+  // Márgenes de seguridad para no pegar al borde
+  const minLeft = st.safeVW;
+  const maxLeft = Math.max(st.safeVW, 100 - widthVW - st.safeVW);
+  const leftVW = minLeft + Math.random() * Math.max(0, maxLeft - minLeft);
+
+  const minTop = st.safeVH;
+  const maxTop = Math.max(st.safeVH, 100 - heightVH - st.safeVH);
+  const topVH = minTop + Math.random() * Math.max(0, maxTop - minTop);
+
+  // guarda safes en data-* para reclampeo en resize
+  pre.dataset.safeVw = String(st.safeVW);
+  pre.dataset.safeVh = String(st.safeVH);
 
   pre.style.left = `${leftVW}vw`;
   pre.style.top = `${topVH}vh`;
@@ -124,6 +173,69 @@ function updateAll() {
       pre.style.top = `${topVH}vh`;
     });
   });
+  // tras recolocar, alisa colisiones en cada sección
+  document.querySelectorAll(".category-section").forEach(resolveOverlapsInSection);
+}
+
+// --- Colisión simple: separa nubes que se pisan dentro de una sección ---
+function pxToVw(px) { return (px / window.innerWidth) * 100; }
+function pxToVh(px) { return (px / window.innerHeight) * 100; }
+
+function resolveOverlapsInSection(section, iterations = 120) {
+  const items = Array.from(section.querySelectorAll(".pre-box"));
+  if (items.length < 2) return;
+
+  const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+
+  for (let step = 0; step < iterations; step++) {
+    let moved = false;
+    for (let i = 0; i < items.length; i++) {
+      const a = items[i];
+      const ra = a.getBoundingClientRect();
+      for (let j = i + 1; j < items.length; j++) {
+        const b = items[j];
+        const rb = b.getBoundingClientRect();
+
+        // chequeo de intersección AABB
+        const overlapX = Math.max(0, Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left));
+        const overlapY = Math.max(0, Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top));
+        if (overlapX > 0 && overlapY > 0) {
+          // empuje mínimo en direcciones opuestas
+          const pushX = pxToVw(overlapX / 2 + 1);
+          const pushY = pxToVh(overlapY / 2 + 1);
+
+          const aw = parseFloat(a.style.width);
+          const ah = (aw * (window.innerWidth / window.innerHeight)) / 1.55;
+          const bw = parseFloat(b.style.width);
+          const bh = (bw * (window.innerWidth / window.innerHeight)) / 1.55;
+
+          const aSafeW = parseFloat(a.dataset.safeVw || "0");
+          const aSafeH = parseFloat(a.dataset.safeVh || "0");
+          const bSafeW = parseFloat(b.dataset.safeVw || "0");
+          const bSafeH = parseFloat(b.dataset.safeVh || "0");
+
+          // mueve en ejes
+          let aLeft = parseFloat(a.style.left) || aSafeW;
+          let aTop  = parseFloat(a.style.top)  || aSafeH;
+          let bLeft = parseFloat(b.style.left) || bSafeW;
+          let bTop  = parseFloat(b.style.top)  || bSafeH;
+
+          aLeft = clamp(aLeft - pushX, aSafeW, Math.max(aSafeW, 100 - aw - aSafeW));
+          bLeft = clamp(bLeft + pushX, bSafeW, Math.max(bSafeW, 100 - bw - bSafeW));
+          aTop  = clamp(aTop  - pushY, aSafeH, Math.max(aSafeH, 100 - ah - aSafeH));
+          bTop  = clamp(bTop  + pushY, bSafeH, Math.max(bSafeH, 100 - bh - bSafeH));
+
+          a.style.left = `${aLeft}vw`;
+          a.style.top  = `${aTop}vh`;
+          b.style.left = `${bLeft}vw`;
+          b.style.top  = `${bTop}vh`;
+
+          moved = true;
+        }
+      }
+    }
+    if (!moved) break;
+  }
 }
 
 // throttle sencillo
@@ -190,7 +302,7 @@ function renderByCategory(rawData) {
     section.style.height = `${stCat.heightVH}vh`;
     section.style.width = '100vw';
     section.style.position = 'relative';
-    section.style.overflow = 'hidden';
+    section.style.overflow = 'visible';
 
     // Título de categoría (arriba-izquierda con 10vh / 10vh)
     const title = document.createElement('h3');
@@ -213,6 +325,8 @@ function renderByCategory(rawData) {
     (items || []).forEach(it => createCloud(it, clouds, category));
 
     section.appendChild(clouds);
+    // arregla solapes iniciales de esta sección
+    resolveOverlapsInSection(section);
     ROOT.appendChild(section);
   });
 
