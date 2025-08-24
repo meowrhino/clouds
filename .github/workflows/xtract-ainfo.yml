@@ -1,63 +1,125 @@
-- name: Ejecuta scraper Python
-  run: |
-    python <<'PY'
-    import requests, json
-    from bs4 import BeautifulSoup, Comment
+name: Extraer ainfo desde Neocities
 
-    url = "https://meowrhino.neocities.org/"
-    r = requests.get(url, timeout=30)
-    r.raise_for_status()
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'  # cada día a las 3am UTC (solo corre en la rama por defecto)
 
-    # Usar .content + ensure_ascii=False para acentos OK
-    soup = BeautifulSoup(r.content, "html.parser")
+permissions:
+  contents: write  # necesario para commit/push con GITHUB_TOKEN
 
-    cont = soup.find(id="proyectes")
-    if cont is None:
-        raise SystemExit("No se encontró #proyectes en la página")
+jobs:
+  scrap:
+    runs-on: ubuntu-latest
 
-    data = {}                 # dict: { "main quests": [ {name,links}, ... ], ... }
-    current_cat = None
-    current_name = None
-    current_links = []
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    def flush():
-        nonlocal current_name, current_links
-        if current_name and current_links:
-            cat = current_cat or "uncategorized"
-            data.setdefault(cat, []).append({
-                "name": current_name,
-                "links": current_links
-            })
-        current_name = None
-        current_links = []
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
-    for el in cont.children:
-        # Comentarios HTML => nombre de categoría
-        if isinstance(el, Comment):
-            flush()
-            current_cat = el.strip()
-            if current_cat:
-                data.setdefault(current_cat, [])
-            continue
+      - name: Instala dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
 
-        tag = getattr(el, "name", None)
-        if tag == "ainfo":
-            flush()
-            current_name = el.get_text(strip=True)
-            current_links = []
-        elif tag == "a" and current_name:
-            href = el.get("href")
-            if href:
-                current_links.append(href)
-        elif tag == "br":
-            flush()
-        else:
-            # ignorar textos/espacios/otros tags
-            pass
+      - name: Ejecuta scraper Python
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, requests
+          from bs4 import BeautifulSoup, Comment
 
-    # por si el último bloque no cerró con <br>
-    flush()
+          url = "https://meowrhino.neocities.org/"
+          r = requests.get(
+              url,
+              timeout=30,
+              headers={"User-Agent": "Mozilla/5.0 (GitHub Actions scraper)"}
+          )
+          r.raise_for_status()
 
-    with open("proyectos.json", "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-    PY
+          # usar .content para que los acentos salgan bien
+          soup = BeautifulSoup(r.content, "html.parser")
+          cont = soup.find(id="proyectes")
+          if cont is None:
+              raise SystemExit("No se encontró #proyectes en la página")
+
+          data = {}                 # {"main quests": [ {name,links}, ... ], ...}
+          current_cat = None
+          current_name = None
+          current_links = []
+
+          def flush():
+              nonlocal current_name, current_links
+              if current_name and current_links:
+                  cat = current_cat or "uncategorized"
+                  data.setdefault(cat, []).append({
+                      "name": current_name,
+                      "links": current_links
+                  })
+              current_name = None
+              current_links = []
+
+          for el in cont.children:
+              if isinstance(el, Comment):
+                  flush()
+                  current_cat = el.strip()
+                  if current_cat:
+                      data.setdefault(current_cat, [])
+                  continue
+
+              tag = getattr(el, "name", None)
+              if tag == "ainfo":
+                  flush()
+                  current_name = el.get_text(strip=True)
+                  current_links = []
+              elif tag == "a" and current_name:
+                  href = el.get("href")
+                  if href:
+                      current_links.append(href)
+              elif tag == "br":
+                  flush()
+              else:
+                  # ignora textos/espacios/otros tags
+                  pass
+
+          flush()  # por si el último bloque no cerró con <br>
+
+          with open("proyectos.json", "w", encoding="utf-8") as f:
+              json.dump(data, f, indent=2, ensure_ascii=False)
+
+          # log amigable para debug
+          print("Categorías:", ", ".join(f"{k}({len(v)})" for k,v in data.items()))
+          PY
+
+      - name: Muestra diff (debug)
+        run: |
+          git status --porcelain
+          if [ -f proyectos.json ]; then
+            echo "Primeras líneas de proyectos.json:"
+            head -n 40 proyectos.json || true
+          fi
+
+      - name: Commit y push si hay cambios
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add proyectos.json || true
+          if git diff --cached --quiet; then
+            echo "No hay cambios."
+            exit 0
+          fi
+
+          # actualiza por si la rama avanzó para evitar conflictos
+          git pull --rebase --autostash origin "$BRANCH" || true
+          git commit -m "actualiza proyectos por categorías desde Neocities [skip ci]"
+          git push origin HEAD:"$BRANCH"
