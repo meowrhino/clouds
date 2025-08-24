@@ -4,6 +4,33 @@ const BASE = "https://meowrhino.neocities.org/";
 const DISABLED_CATEGORIES = new Set(["hidden"]); // añade aquí otras que quieras ocultar
 // const CATEGORY_ORDER = ['main quests','side quests',"meowrhino's world",'fun apps','unfinished apps','texts','misc']; // opcional
 
+const CATEGORY_STYLE = {
+  "main quests":       { minVW: 16, maxVW: 28, factorMin: 0.9,  factorMax: 1.15, safeVW: 4, safeVH: 4, heightVH: 100 },
+  "side quests":       { minVW: 12, maxVW: 24, factorMin: 0.85, factorMax: 1.2,  heightVH: 100 },
+  "meowrhino's world": { minVW: 14, maxVW: 26, factorMin: 0.9,  factorMax: 1.2,  heightVH: 100 },
+  "fun apps":          { minVW: 11, maxVW: 22, factorMin: 0.85, factorMax: 1.15, heightVH: 100 },
+  "unfinished apps":   { minVW: 12, maxVW: 24, factorMin: 0.85, factorMax: 1.2,  heightVH: 100 },
+  "texts":             { minVW: 13, maxVW: 23, factorMin: 0.9,  factorMax: 1.15, heightVH: 100 },
+  "misc":              { minVW: 12, maxVW: 24, factorMin: 0.85, factorMax: 1.2,  heightVH: 100 },
+  default:             { minVW: 12, maxVW: 24, factorMin: 0.85, factorMax: 1.2,  heightVH: 100 }
+};
+
+const SAFE_VW = 4;
+const SAFE_VH = 4;
+
+function getCatStyle(category) {
+  const cfg = CATEGORY_STYLE[category] || CATEGORY_STYLE.default;
+  return {
+    minVW: cfg.minVW ?? 12,
+    maxVW: cfg.maxVW ?? 24,
+    factorMin: cfg.factorMin ?? 0.85,
+    factorMax: cfg.factorMax ?? 1.2,
+    safeVW: cfg.safeVW ?? SAFE_VW,
+    safeVH: cfg.safeVH ?? SAFE_VH,
+    heightVH: cfg.heightVH ?? 100
+  };
+}
+
 // === Utilidades ===
 function normalizeLink(link) {
   if (!link) return "#";
@@ -20,7 +47,7 @@ function roman(n) {
 }
 
 // === Núcleo: crear UNA nube dentro de un contenedor dado ===
-function createCloud(item, containerEl) {
+function createCloud(item, containerEl, category) {
   const pre = document.createElement("div");
   pre.className = "pre-box";
   const box = document.createElement("div");
@@ -144,12 +171,10 @@ function renderByCategory(rawData) {
   // 3) Filtra desactivadas (p. ej. "hidden")
   const enabled = entries.filter(([cat]) => !DISABLED_CATEGORIES.has(cat));
 
-  // 4) *** Alto automático ***
-  // Cada sección mide 100vh -> total = N * 100vh
-  const totalVh = enabled.length * 100;
-  // Fijamos la altura en el propio contenedor de contenido (igual que hacías con 500vh)
+  // Altura total = suma de alturas por categoría
+  const totalVh = enabled.reduce((sum, [cat]) => sum + (getCatStyle(cat).heightVH || 100), 0);
   ROOT.style.height = `${totalVh}vh`;
-  // Por si el wrapper .container tuviera height:100vh, le damos un mínimo para que no recorte
+  ROOT.style.setProperty("--sections", String(enabled.length)); // por compat
   const wrapper = ROOT.closest('.container');
   if (wrapper) wrapper.style.minHeight = `${totalVh}vh`;
 
@@ -161,10 +186,23 @@ function renderByCategory(rawData) {
     section.dataset.category = category;
 
     // sección pantalla completa sin depender del CSS externo
-    section.style.height = '100vh';
+    const stCat = getCatStyle(category);
+    section.style.height = `${stCat.heightVH}vh`;
     section.style.width = '100vw';
     section.style.position = 'relative';
     section.style.overflow = 'hidden';
+
+    // Título de categoría (arriba-izquierda con 10vh / 10vh)
+    const title = document.createElement('h3');
+    title.className = 'category-title';
+    title.textContent = category;
+    title.style.position = 'absolute';
+    title.style.top = '10vh';
+    title.style.left = '10vh';
+    title.style.zIndex = '2';
+    title.style.pointerEvents = 'none';
+    title.style.fontSize = 'clamp(18px, 3.5vw, 32px)';
+    section.appendChild(title);
 
     const clouds = document.createElement('div');
     clouds.className = 'clouds-container';
@@ -172,7 +210,7 @@ function renderByCategory(rawData) {
     clouds.style.width = '100%';
     clouds.style.height = '100%';
 
-    (items || []).forEach(it => createCloud(it, clouds));
+    (items || []).forEach(it => createCloud(it, clouds, category));
 
     section.appendChild(clouds);
     ROOT.appendChild(section);
