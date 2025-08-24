@@ -1,0 +1,113 @@
+/* v1
+
+body {
+    background-image: var(--polka-bg-image);
+    background-position: var(--polka-bg-position);
+    background-size: var(--polka-bg-size);
+    background-color: var(--polka-bg-color);
+  }
+  
+:root {
+    --polka-bg-image:
+      radial-gradient(rgb(249, 214, 123) 32%, transparent 32%),
+      radial-gradient(rgb(249, 214, 123) 32%, transparent 32%),
+      radial-gradient(rgb(249, 214, 123) 32%, transparent 32%),
+      radial-gradient(rgb(249, 214, 123) 32%, transparent 32%);
+    --polka-bg-position: 0px 0px, 80px 80px, 8px 8px, 75px 85px;
+    --polka-bg-size: 160px 180px;
+    --polka-bg-color: rgb(35, 35, 35);
+  }
+
+  .polka {
+    background-image: 
+      radial-gradient(rgb(249, 214, 123) 32%, transparent 32%),
+      radial-gradient(rgb(249, 214, 123) 32%, transparent 32%),
+      radial-gradient(rgb(249, 214, 123) 32%, transparent 32%),
+      radial-gradient(rgb(249, 214, 123) 32%, transparent 32%);
+    background-position: 0px 0px, 80px 80px, -8px 8px, 72px 88px;
+    background-size: 160px 160px;
+    background-color: rgb(35, 35, 35);
+  }
+
+  */
+
+  /* v2 bien triposa
+  :root {
+    --color-2: rgb(249, 214, 123);
+    --polka-bg-color: rgb(35, 35, 35); 
+  }
+  
+  body {
+    background-color: var(--polka-bg-color);
+    background-image: 
+      radial-gradient(circle at 10% 20%, var(--color-2) 8px, transparent 20%),
+      radial-gradient(circle at 50% 50%, var(--color-2) 12px, transparent 20%),
+      radial-gradient(circle at 80% 30%, var(--color-2) 10px, transparent 20%),
+      radial-gradient(circle at 20% 70%, var(--color-2) 15px, transparent 20%),
+      radial-gradient(circle at 70% 90%, var(--color-2) 7px, transparent 20%);
+    background-size: 100% 100%;
+  }
+  */
+
+  /* v1_2 motivo bonito
+
+  :root {
+  --color-2: rgb(249, 214, 123); 
+  --polka-bg-image:
+    radial-gradient(var(--color-2) 40%, transparent 32%),
+    radial-gradient(var(--color-2) 40%, transparent 32%),
+    radial-gradient(var(--color-2) 40%, transparent 32%);
+  --polka-bg-position: 0px 0px, 120px 100px, 240px 120px; 
+  --polka-bg-size: 200px 200px; 
+  --polka-bg-color: rgb(35, 35, 35); 
+}
+
+body {
+  background-image: var(--polka-bg-image);
+  background-position: var(--polka-bg-position);
+  background-size: var(--polka-bg-size);
+  background-color: var(--polka-bg-color);
+}
+
+*/
+
+/* v2_2 peor
+
+:root {
+    --color-2: rgb(249, 214, 123); 
+    --polka-bg-color: rgb(35, 35, 35); 
+  }
+  
+  body {
+    background-color: var(--polka-bg-color);
+    background-image: 
+      radial-gradient(circle 20px at 10% 15%, var(--color-2), transparent),
+      radial-gradient(circle 30px at 30% 35%, var(--color-2), transparent),
+      radial-gradient(circle 25px at 50% 20%, var(--color-2), transparent),
+      radial-gradient(circle 15px at 70% 50%, var(--color-2), transparent),
+      radial-gradient(circle 35px at 90% 70%, var(--color-2), transparent),
+      radial-gradient(circle 10px at 20% 85%, var(--color-2), transparent),
+      radial-gradient(circle 20px at 80% 10%, var(--color-2), transparent);
+    background-size: 100% 100%;
+  }
+  
+  */
+
+
+  /* v3 babel tower
+
+  :root {
+    --color-2: rgb(249, 214, 123); 
+    --polka-bg-color: rgb(35, 35, 35); 
+    --polka-bg-size: 60px;
+  }
+  
+  body {
+    background-color: var(--polka-bg-color);
+    background-image: 
+      radial-gradient(var(--color-2) 25%, transparent 25%), 
+      radial-gradient(var(--color-2) 25%, transparent 25%);
+    background-size: var(--polka-bg-size --polka-bg-size);
+    background-position: 0 0, 30px 30px; 
+  }
+  */

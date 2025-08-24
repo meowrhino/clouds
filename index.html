@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--<title>Patrón de Puntos</title>-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <div class="dot-container" id="dot-container"></div>
+
+  <div class="container container--title">
+
+    <div class="pre-box--shadow">
+      <div class="pre-box">
+        <div class="box box--title ">
+          <h1>meowrhino</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container container--content">
+
+
+  </div>
+  </div>
+  <div class="container container--title">
+  </div>
+
+
+
+  <div class="pre-box box--palette">
+    <div class="box box--palette">
+      <span class="popup-trigger">
+        <h4>open fun</h4>
+      </span>
+    </div>
+  </div>
+
+  <div class="popup">
+    <span class="close-popup">
+      <h4>close fun</h4>
+    </span>
+
+    <div class="pre-box--shadow">
+      <div class="pre-box">
+        <div class="box">
+          <div class="palette-buttons">
+
+            <div class="palette-column">
+              <button class="palette-btn" onclick="applyPalette('original')">original</button>
+              <button class="palette-btn" onclick="applyPalette('burnt')">burnt</button>
+              <button class="palette-btn" onclick="applyPalette('')">monochrome</button>
+              <button class="palette-btn" onclick="applyPalette('archive')">archive</button>
+              <button class="palette-btn" onclick="applyPalette('tfg')">tfg</button>
+            </div>
+
+            <div class="palette-column">
+              <button class="palette-btn" onclick="applyPalette('ketchup')">ketchup</button>
+              <button class="palette-btn" onclick="applyPalette('chocoBar')">chocoBar</button>
+              <button class="palette-btn" onclick="applyPalette('shootingStar')">shootingStar</button>
+              <button class="palette-btn" onclick="applyPalette('skull')">skull</button>
+              <button class="palette-btn" onclick="applyPalette('lemonzest')">lemonzest</button>
+            </div>
+
+            <div class="palette-column">
+              <button class="palette-btn" onclick="applyPalette('coolCap')">coolCap</button>
+              <button class="palette-btn" onclick="applyPalette('baby')">baby</button>
+              <button class="palette-btn" onclick="applyPalette('autumnWinter')">autumnWinter</button>
+              <button class="palette-btn" onclick="applyPalette('lavenderMint')">lavenderMint</button>
+              <button class="palette-btn" onclick="applyPalette('fortuneCookie')">fortuneCookie</button>
+            </div>
+
+            <div class="palette-column">
+              <button class="palette-btn" onclick="applyPalette('raspberry')">raspberry</button>
+              <button class="palette-btn" onclick="applyPalette('dino')">dino</button>
+              <button class="palette-btn" onclick="applyPalette('mailBox')">mailBox</button>
+              <button class="palette-btn" onclick="applyPalette('lumber')">lumber</button>
+              <button class="palette-btn" onclick="applyPalette('pewpew')">pewpew</button>
+            </div>
+
+            <div class="palette-column">
+              <button class="palette-btn" onclick="applyPalette('orangeOracle')">orangeOracle</button>
+              <button class="palette-btn" onclick="applyPalette('coolTheyThem')">coolTheyThem</button>
+              <button class="palette-btn" onclick="applyPalette('shyThunder')">shyThunder</button>
+              <button class="palette-btn" onclick="applyPalette('demure')">demure</button>
+              <button class="palette-btn" onclick="applyPalette('gingerBread')">gingerBread</button>
+            </div>
+
+            <div class="palette-column">
+              <button class="palette-btn" onclick="applyPalette('zombie')">zombie</button>
+              <button class="palette-btn" onclick="applyPalette('vampire')">vampire</button>
+              <button class="palette-btn" onclick="applyPalette('sibyl')">sibyl</button>
+              <button class="palette-btn" onclick="applyPalette('bumblebee')">bumblebee</button>
+              <button class="palette-btn" onclick="applyPalette('pumpkin')">pumpkin</button>
+            </div>
+
+            <div class="palette-column">
+              <button class="palette-btn" onclick="applyPalette('spiderweb')">spiderweb</button>
+              <button class="palette-btn" onclick="applyPalette('amphora')">amphora</button>
+              <button class="palette-btn" onclick="applyPalette('beetle')">beetle</button>
+              <button class="palette-btn" onclick="applyPalette('crayon')">crayon</button>
+              <button class="palette-btn" onclick="applyPalette('umbrella')">umbrella</button>
+            </div>
+
+          </div>
+          <div class="color-grid">
+            <div class="color-rect" data-color="1">
+              <input type="color" class="color-picker" data-color-var="--color-1">
+            </div>
+            <div class="color-rect" data-color="2">
+              <input type="color" class="color-picker" data-color-var="--color-2">
+            </div>
+            <div class="color-rect" data-color="3">
+              <input type="color" class="color-picker" data-color-var="--color-3">
+            </div>
+            <div class="color-rect" data-color="4">
+              <input type="color" class="color-picker" data-color-var="--color-4">
+            </div>
+          </div>
+
+          <div class="shuffleClouds">
+            <button onclick="updatePositions()">remover nubes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script>
+    document.querySelector('.popup-trigger').addEventListener('click', () => {
+      document.querySelector('.popup').classList.add('active');
+    });
+
+    document.querySelector('.close-popup').addEventListener('click', () => {
+      document.querySelector('.popup').classList.remove('active');
+    });
+
+    document.querySelectorAll('.color-picker').forEach(picker => {
+      picker.addEventListener('input', (e) => {
+        const colorVar = e.target.dataset.colorVar;
+        document.documentElement.style.setProperty(colorVar, e.target.value);
+      });
+
+      // Set initial color picker values
+      const colorVar = picker.dataset.colorVar;
+      const currentColor = getComputedStyle(document.documentElement)
+        .getPropertyValue(colorVar);
+      picker.value = currentColor;
+    });
+  </script>
+
+  <script src="script/randomPosition.js"></script>
+  <script src="script/containerContentContent.js"></script>
+  <script src="script/polkadotsbg.js"></script>
+  <script src="script/changepalette.js"></script>
+  <script src="script/adjustBoxSizes.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,672 @@
+:root {
+    /* Cloud shape for clip-path */
+    --nube: polygon(99.426% 44.728%, 99.426% 44.728%, 99.871% 41.37%, 99.98% 37.982%,
+            99.78% 34.598%, 99.298% 31.252%, 98.561% 27.979%, 97.597% 24.812%,
+            96.432% 21.786%, 95.095% 18.935%, 93.611% 16.293%, 92.009% 13.895%,
+            92.009% 13.895%, 90.386% 11.942%, 88.654% 10.355%, 86.828% 9.112%,
+            84.925% 8.191%, 82.96% 7.57%, 80.948% 7.227%, 78.907% 7.141%,
+            76.851% 7.288%, 74.797% 7.648%, 72.759% 8.198%, 72.759% 8.198%,
+            71.935% 8.479%, 71.117% 8.802%, 70.308% 9.166%, 69.509% 9.573%,
+            68.72% 10.022%, 67.943% 10.512%, 67.179% 11.044%, 66.429% 11.618%,
+            65.695% 12.234%, 64.978% 12.891%, 64.978% 12.891%, 64.649% 12.219%,
+            64.312% 11.557%, 63.967% 10.909%, 63.614% 10.272%, 63.253% 9.649%,
+            62.886% 9.04%, 62.511% 8.446%, 62.129% 7.866%, 61.741% 7.301%,
+            61.347% 6.752%, 61.347% 6.752%, 59.724% 4.799%, 57.992% 3.213%,
+            56.166% 1.97%, 54.263% 1.049%, 52.297% 0.428%, 50.286% 0.085%,
+            48.245% -0.002%, 46.189% 0.145%, 44.134% 0.505%, 42.097% 1.055%,
+            42.097% 1.055%, 40.406% 1.679%, 38.751% 2.481%, 37.142% 3.46%,
+            35.59% 4.616%, 34.105% 5.948%, 32.698% 7.458%, 31.379% 9.143%,
+            30.159% 11.005%, 29.048% 13.042%, 28.058% 15.255%, 28.058% 15.255%,
+            27.516% 14.778%, 26.964% 14.337%, 26.402% 13.933%, 25.83% 13.569%,
+            25.248% 13.244%, 24.658% 12.962%, 24.058% 12.723%, 23.45% 12.528%,
+            22.833% 12.38%, 22.208% 12.279%, 22.208% 12.279%, 20.213% 12.271%,
+            18.266% 12.683%, 16.375% 13.478%, 14.546% 14.621%, 12.787% 16.076%,
+            11.105% 17.808%, 9.507% 19.78%, 7.999% 21.958%, 6.591% 24.305%,
+            5.287% 26.786%, 5.287% 26.786%, 4.106% 29.369%, 3.047% 32.078%,
+            2.125% 34.894%, 1.351% 37.802%, 0.74% 40.785%, 0.303% 43.825%,
+            0.054% 46.906%, 0.005% 50.011%, 0.171% 53.123%, 0.563% 56.225%,
+            0.563% 56.225%, 0.803% 57.519%, 1.083% 58.778%, 1.403% 60.002%,
+            1.761% 61.191%, 2.155% 62.345%, 2.585% 63.464%, 3.048% 64.548%,
+            3.543% 65.596%, 4.069% 66.608%, 4.625% 67.585%, 4.625% 67.585%,
+            4.542% 68.011%, 4.464% 68.44%, 4.393% 68.871%, 4.327% 69.305%,
+            4.268% 69.741%, 4.213% 70.178%, 4.164% 70.615%, 4.121% 71.051%,
+            4.083% 71.488%, 4.051% 71.922%, 4.051% 71.922%, 3.996% 73.58%,
+            4.052% 75.222%, 4.213% 76.837%, 4.474% 78.417%, 4.83% 79.951%,
+            5.276% 81.431%, 5.804% 82.847%, 6.411% 84.19%, 7.09% 85.449%,
+            7.837% 86.616%, 7.837% 86.616%, 8.563% 87.542%, 9.34% 88.315%,
+            10.161% 88.942%, 11.018% 89.43%, 11.905% 89.786%, 12.816% 90.016%,
+            13.742% 90.129%, 14.676% 90.131%, 15.613% 90.029%, 16.545% 89.83%,
+            16.545% 89.83%, 16.634% 89.804%, 16.723% 89.777%, 16.811% 89.749%,
+            16.898% 89.72%, 16.984% 89.69%, 17.07% 89.659%, 17.155% 89.627%,
+            17.239% 89.594%, 17.323% 89.559%, 17.406% 89.524%, 17.406% 89.524%,
+            18.764% 91.763%, 20.268% 93.695%, 21.899% 95.335%, 23.639% 96.696%,
+            25.466% 97.796%, 27.364% 98.648%, 29.312% 99.267%, 31.291% 99.669%,
+            33.281% 99.869%, 35.265% 99.881%, 35.265% 99.881%, 37.204% 99.716%,
+            39.152% 99.364%, 41.086% 98.81%, 42.982% 98.039%, 44.818% 97.037%,
+            46.57% 95.789%, 48.216% 94.281%, 49.733% 92.497%, 51.097% 90.423%,
+            52.285% 88.045%, 52.285% 88.045%, 52.613% 88.03%, 52.941% 88.006%,
+            53.268% 87.974%, 53.596% 87.932%, 53.924% 87.883%, 54.252% 87.825%,
+            54.58% 87.76%, 54.907% 87.686%, 55.235% 87.606%, 55.563% 87.517%,
+            55.563% 87.517%, 56.701% 89.03%, 57.907% 90.405%, 59.173% 91.64%,
+            60.492% 92.733%, 61.86% 93.682%, 63.268% 94.487%, 64.712% 95.145%,
+            66.183% 95.656%, 67.675% 96.016%, 69.183% 96.225%, 69.183% 96.225%,
+            70.986% 96.212%, 72.749% 95.872%, 74.466% 95.229%, 76.134% 94.307%,
+            77.746% 93.127%, 79.298% 91.715%, 80.784% 90.093%, 82.2% 88.284%,
+            83.541% 86.312%, 84.801% 84.201%, 84.801% 84.201%, 85.12% 83.613%,
+            85.428% 83.014%, 85.724% 82.403%, 86.009% 81.781%, 86.282% 81.148%,
+            86.543% 80.506%, 86.793% 79.853%, 87.032% 79.191%, 87.258% 78.52%,
+            87.473% 77.84%, 87.473% 77.84%, 88.153% 77.897%, 88.834% 77.883%,
+            89.514% 77.802%, 90.192% 77.654%, 90.864% 77.441%, 91.529% 77.165%,
+            92.184% 76.827%, 92.828% 76.429%, 93.458% 75.973%, 94.073% 75.46%,
+            94.073% 75.46%, 94.856% 74.659%, 95.566% 73.733%, 96.202% 72.696%,
+            96.769% 71.559%, 97.267% 70.334%, 97.698% 69.035%, 98.065% 67.673%,
+            98.369% 66.26%, 98.613% 64.81%, 98.797% 63.334%, 98.797% 63.334%,
+            98.894% 62.023%, 98.915% 60.717%, 98.862% 59.423%, 98.738% 58.146%,
+            98.545% 56.892%, 98.284% 55.668%, 97.958% 54.48%, 97.569% 53.334%,
+            97.12% 52.235%, 96.612% 51.191%, 96.612% 51.191%, 96.993% 50.688%,
+            97.355% 50.158%, 97.696% 49.599%, 98.016% 49.009%, 98.313% 48.387%,
+            98.586% 47.73%, 98.836% 47.038%, 99.059% 46.308%, 99.256% 45.539%,
+            99.426% 44.728%);
+
+    /*propias*/
+    /*original*/
+    --original-color-1: #221E33;
+    --original-color-2: #FFD66B;
+    --original-color-3: #EC7F51;
+    --original-color-4: #33201E;
+
+    /*burnt*/
+    --burnt-color-1: #462846;
+    --burnt-color-2: #FFE49E;
+    --burnt-color-3: #F2A17A;
+    --burnt-color-4: #F4F4F4;
+
+    /*monochrome*/
+    --color-1: #353535;
+    --color-2: #F9D67B;
+    --color-3: #FCFAF1;
+    --color-4: #707070;
+
+    /*archive*/
+    --archive-color-1: #000000;
+    --archive-color-2: #0026F5;
+    --archive-color-3: #656D7C;
+    --archive-color-4: #F8DA5C;
+
+    /*tfg*/
+    --tfg-color-1: #FDF7F4;
+    --tfg-color-2: #EB3D25;
+    --tfg-color-3: #0026F5;
+    --tfg-color-4: #FFFD54;
+
+    /*blancas*/
+    /*ketchup*/
+    --ketchup-color-1: #EEEBDD;
+    --ketchup-color-2: #CE1212;
+    --ketchup-color-3: #810000;
+    --ketchup-color-4: #1B1717;
+
+    /*chocoBar*/
+    --chocoBar-color-1: #FFF0D1;
+    --chocoBar-color-2: #795757;
+    --chocoBar-color-3: #664343;
+    --chocoBar-color-4: #3B3030;
+
+    /*shootingStar*/
+    --shootingStar-color-1: #FFFFFF;
+    --shootingStar-color-2: #F2C482;
+    --shootingStar-color-3: #D7DDC3;
+    --shootingStar-color-4: #AC5E9F;
+
+    /*skull*/
+    --skull-color-1: #FBF9FA;
+    --skull-color-2: #FD0054;
+    --skull-color-3: #A80038;
+    --skull-color-4: #2B2024;
+
+    /*lemonzest*/
+    --lemonzest-color-1: #FFFFFF;
+    --lemonzest-color-2: #F3EFD5;
+    --lemonzest-color-3: #656D7C;
+    --lemonzest-color-4: #F8DA5C;
+
+    /*claritas*/
+    /*coolCap*/
+    --coolCap-color-1: #C96868;
+    --coolCap-color-2: #FADFA1;
+    --coolCap-color-3: #FFF4EA;
+    --coolCap-color-4: #7EACB5;
+
+    /*baby*/
+    --baby-color-1: #78B3CE;
+    --baby-color-2: #C9E6F0;
+    --baby-color-3: #FBF8EF;
+    --baby-color-4: #E4BA6B;
+
+    /*autumnWinter*/
+    --autumnWinter-color-1: #DCE4C9;
+    --autumnWinter-color-2: #F5F5DC;
+    --autumnWinter-color-3: #B6A28E;
+    --autumnWinter-color-4: #E07B39;
+
+    /*lavenderMint*/
+    --lavenderMint-color-1: #6256CA;
+    --lavenderMint-color-2: #86D293;
+    --lavenderMint-color-3: #C1E2A4;
+    --lavenderMint-color-4: #FDFAD9;
+
+    /*fortuneCookie*/
+    --fortuneCookie-color-1: #FF885B;
+    --fortuneCookie-color-2: #FFF19F;
+    --fortuneCookie-color-3: #33372C;
+    --fortuneCookie-color-4: #557C56;
+
+    /*color*/
+    /*raspberry*/
+    --raspberry-color-1: #99154E;
+    --raspberry-color-2: #FFC93C;
+    --raspberry-color-3: #FFDDCC;
+    --raspberry-color-4: #DD97A8;
+
+    /*dino*/
+    --dino-color-1: #071A52;
+    --dino-color-2: #086972;
+    --dino-color-3: #068888;
+    --dino-color-4: #A7FF83;
+
+    /*mailBox*/
+    --mailBox-color-1: #08D9D6;
+    --mailBox-color-2: #252A34;
+    --mailBox-color-3: #FF2E63;
+    --mailBox-color-4: #EAEAEA;
+
+    /*lumber*/
+    --lumber-color-1: #43766C;
+    --lumber-color-2: #F8FAE5;
+    --lumber-color-3: #B19470;
+    --lumber-color-4: #76453B;
+
+    /*pewpew*/
+    --pewpew-color-1: #453E80;
+    --pewpew-color-2: #FFFFFF;
+    --pewpew-color-3: #936F4C;
+    --pewpew-color-4: #F36A10;
+
+    /*fun*/
+    /*orangeOracle*/
+    --orangeOracle-color-1: #333333;
+    --orangeOracle-color-2: #FF6000;
+    --orangeOracle-color-3: #FFC859;
+    --orangeOracle-color-4: #FFE6C7;
+
+    /*coolTheyThem*/
+    --coolTheyThem-color-1: #071A52;
+    --coolTheyThem-color-2: #086972;
+    --coolTheyThem-color-3: #068888;
+    --coolTheyThem-color-4: #A7FF83;
+
+    /*shyThunder*/
+    --shyThunder-color-1: #010059;
+    --shyThunder-color-2: #0E98C4;
+    --shyThunder-color-3: #B3B3B3;
+    --shyThunder-color-4: #FCF594;
+
+    /*demure*/
+    --demure-color-1: #FAA3A4;
+    --demure-color-2: #00416D;
+    --demure-color-3: #F5F1DA;
+    --demure-color-4: #E3DFC8;
+
+    /*gingerBread*/
+    --gingerBread-color-1: #A02334;
+    --gingerBread-color-2: #FFAD60;
+    --gingerBread-color-3: #FFEEAD;
+    --gingerBread-color-4: #96CEB4;
+
+    /*oscuras*/
+    /*zombie*/
+    --zombie-color-1: #32012F;
+    --zombie-color-2: #524C42;
+    --zombie-color-3: #E2DFD0;
+    --zombie-color-4: #95F900;
+
+    /*vampire*/
+    --vampire-color-1: #1A1919;
+    --vampire-color-2: #A04747;
+    --vampire-color-3: #D8A25E;
+    --vampire-color-4: #EEDF7A;
+
+    /*sibyl*/
+    --sibyl-color-1: #241023;
+    --sibyl-color-2: #883C82;
+    --sibyl-color-3: #D8A9CA;
+    --sibyl-color-4: #E4BA6B;
+
+    /*bumblebee*/
+    --bumblebee-color-1: #222831;
+    --bumblebee-color-2: #393E46;
+    --bumblebee-color-3: #FFD369;
+    --bumblebee-color-4: #EEEEEE;
+
+    /*pumpkin*/
+    --pumpkin-color-1: #630E1A;
+    --pumpkin-color-2: #FFFFFF;
+    --pumpkin-color-3: #936F4C;
+    --pumpkin-color-4: #F36A10;
+
+    /*monocromas*/
+    /*spiderweb*/
+    --spiderweb-color-1: #000000;
+    --spiderweb-color-2: #52057B;
+    --spiderweb-color-3: #892CDC;
+    --spiderweb-color-4: #BC6FF1;
+
+    /*amphora*/
+    --amphora-color-1: #635985;
+    --amphora-color-2: #443C68;
+    --amphora-color-3: #393053;
+    --amphora-color-4: #18122B;
+
+    /*beetle*/
+    --beetle-color-1: #1A1A19;
+    --beetle-color-2: #31511E;
+    --beetle-color-3: #859F3D;
+    --beetle-color-4: #39401D;
+
+    /*crayon*/
+    --crayon-color-1: #440A0A;
+    --crayon-color-2: #BF3131;
+    --crayon-color-3: #EA9696;
+    --crayon-color-4: #F3C8C8;
+
+    /*umbrella*/
+    --umbrella-color-1: #49243E;
+    --umbrella-color-2: #704264;
+    --umbrella-color-3: #BB8493;
+    --umbrella-color-4: #DBAFA0;
+
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    /* So that .dot-container is positioned relative to the body */
+}
+
+body,
+.box,
+.pre-box,
+h1,
+.point {
+    transition: background-color 0.5s ease, color 0.5s ease, text-shadow 0.5s ease;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    font-family: "Inknut Antiqua", serif;
+    text-align: center;
+    line-height: 120%;
+}
+
+h1 {
+    color: var(--color-4);
+    text-shadow:
+        1.5px 2.5px 1px var(--color-3),
+        /* Primera sombra */
+        -1.5px -2.5px 1px var(--color-3);
+    /* Segunda sombra */
+    font-size: 60px;
+
+    letter-spacing: -4px;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 32px;
+        /* Same size as h3 */
+        letter-spacing: -3px;
+        /* Adjust letter-spacing to match h3 */
+    }
+}
+
+h2 {
+    color: var(--color-4);
+    text-shadow:
+        1px 2px 1px var(--color-3),
+        /* Primera sombra */
+        -1px -2px 1px var(--color-3);
+    /* Segunda sombra */
+    font-size: 40px;
+
+    letter-spacing: -3.5px;
+}
+
+h3 {
+    color: var(--color-4);
+    text-shadow:
+        1px 2px 1px var(--color-3),
+        /* Primera sombra */
+        -1px -2px 1px var(--color-3);
+    /* Segunda sombra */
+    font-size: 32px;
+
+    letter-spacing: -3px;
+}
+
+h4 {
+    color: var(--color-4);
+    text-shadow:
+        1px 2px 1px var(--color-3),
+        /* Primera sombra */
+        -1px -2px 1px var(--color-3);
+    /* Segunda sombra */
+    font-size: 24px;
+
+    letter-spacing: -2.5px;
+}
+
+h5 {
+    color: var(--color-4);
+    text-shadow:
+        0.3px 0.6px 0.3px var(--color-3),
+        /* Primera sombra */
+        -0.3px -0.6px 0.3px var(--color-3);
+    /* Segunda sombra */
+    font-size: 16px;
+
+    letter-spacing: -2px;
+}
+
+a {
+    cursor: pointer;
+    color: var(--color-4);
+    text-decoration: none;
+    text-shadow:
+        0.3px 0.6px 0.3px var(--color-1),
+        /* Primera sombra */
+        -0.3px -0.6px 0.3px var(--color-1);
+        /* Segunda sombra */
+}
+
+.container {
+    height: 100vh;
+}
+
+.container--title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container--content {
+    display: flex;
+    position: relative;
+    height: 300vh !important;
+
+}
+
+body {
+    margin: 0;
+    background-color: var(--color-1);
+    height: 500vh;
+}
+
+.point {
+    position: absolute;
+    color: var(--color-2);
+    font-size: 128px;
+    /* Point size */
+    line-height: 0;
+    /*asi hay por arriba tambien*/
+}
+
+
+.box {
+    position: relative;
+    clip-path: var(--nube);
+
+    background-color: var(--color-2);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Inknut Antiqua', serif;
+}
+
+
+.pre-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+.pre-box::before {
+    content: "";
+    position: absolute;
+    background-position: center;
+    width: 105%;
+    height: 110%;
+    background-color: var(--color-3);
+    clip-path: var(--nube);
+    z-index: -1;
+}
+
+.pre-box--shadow {
+    filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.3)) drop-shadow(-5px -5px 5px rgba(0, 0, 0, 0.3));
+}
+
+/*
+ideas para sombra en pre-box
+.box-shadow {
+    width: 200px;
+    height: 200px;
+    background-color: var(--color-1);
+    clip-path: var(--nube);
+
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  .container > * {
+    text-shadow: 20px 2px 5px rgba(0, 0, 0, 1);
+}
+
+  */
+.box--title {
+    width: 30vw;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+
+    .pre-box::before {
+        width: 100%;
+        height: 100%;
+    }
+
+    .box--title,
+    .box--palette {
+        width: 90%;
+    }
+}
+
+.box--palette {
+    width: 90%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Responsive popup */
+.popup .pre-box {
+    width: 80%;
+}
+
+.popup .box {
+    width: 100%;
+    padding: 2%;
+}
+
+
+.pre-box.box--palette {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 200px;
+    z-index: 1;
+}
+
+.box--palette {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dot-container {
+    position: absolute;
+    /* Or absolute, depending on your needs */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 500vh;
+    z-index: -1;
+    pointer-events: none;
+    /* This prevents the background from interfering with foreground interactions */
+    overflow: hidden;
+    /* Optional to avoid horizontal scroll if the background is animated */
+
+}
+
+.popup-trigger {
+    z-index: 1;
+    top: 100px;
+    right: 100px;
+    cursor: pointer;
+    color: var(--color-4);
+    z-index: 3;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.popup.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup .pre-box {
+    position: relative;
+    padding: 10px;
+    width: 60vw;
+}
+
+.popup .box {
+    background-color: var(--color-2);
+    position: relative;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-popup {
+    position: absolute;
+    top: 100px;
+    right: 100px;
+    cursor: pointer;
+    color: var(--color-4);
+    z-index: 3;
+}
+
+.color-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+}
+
+.color-rect {
+    position: relative;
+    width: 10%;
+    aspect-ratio: 1;
+    cursor: pointer;
+    border-radius: 8px;
+    border: #cccccc 2px dotted;
+}
+
+.color-rect[data-color="1"] {
+    background-color: var(--color-1);
+}
+
+.color-rect[data-color="2"] {
+    background-color: var(--color-2);
+}
+
+.color-rect[data-color="3"] {
+    background-color: var(--color-3);
+}
+
+.color-rect[data-color="4"] {
+    background-color: var(--color-4);
+}
+
+.color-picker {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.palette-buttons {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+}
+
+.palette-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+div.flex-column p {
+    margin: 0;
+    display: flex;
+    gap: 5px;
+}
