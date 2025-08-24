@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nubes Aleatorias</title>
+  <!-- Fuente tipográfica -->
+  <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@300&display=swap" rel="stylesheet">
+  <!-- Estilos principales -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/palettes.css" />
+  <link rel="stylesheet" href="css/nube.css" />
+
+  <script src="https://unpkg.com/paper"></script>
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+  <!-- Botones fijos a la derecha estilo sin decoración -->
+  <button id="open-fun" class="btn-plain">fun</button>
+  <button id="shuffle" class="btn-plain">mix</button>
+
+  <!-- Panel de selección de tema/paleta -->
+
+  <div id="theme-panel" class="theme-panel hidden">
+    <header class="theme-panel__header">
+      <h3 class="theme-panel__title">Personaliza Tema</h3>
+      <button id="close-fun" class="theme-panel__close">&times;</button>
+    </header>
+
+    <div class="theme-panel__body">
+      <label for="theme-select" class="theme-panel__label">Selecciona Tema</label>
+      <div class="select-wrapper">
+        <select id="theme-select" class="theme-select"></select>
+      </div>
+
+      <fieldset id="color-pickers" class="color-pickers">
+        <legend class="color-pickers__legend">Ajusta tus colores</legend>
+        <!-- ¡VACÍO! 4 pickers se inyectarán vía JavaScript -->
+      </fieldset>
+
+      <button id="apply-theme" class="btn-apply">Aplicar</button>
+    </div>
+  </div>
+
+  <!-- Lógica principal y switcher de tema -->
+  <script defer src="scripts/themeSwitcher.js"></script>
+  <script defer src="scripts/main.js"></script>
+</body>
+
+</html>

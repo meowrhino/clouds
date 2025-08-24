@@ -1,0 +1,44 @@
+{
+  "categories": [
+    {
+      "category": "main quests",
+      "visible": true,
+      "scale": 3
+    },
+    {
+      "category": "side quests",
+      "visible": true,
+      "scale": 1
+    },
+    {
+      "category": "meowrhino's world",
+      "visible": true,
+      "scale": 1
+    },
+    {
+      "category": "fun apps",
+      "visible": true,
+      "scale": 1
+    },
+    {
+      "category": "unfinished apps",
+      "visible": true,
+      "scale": 1
+    },
+    {
+      "category": "texts",
+      "visible": true,
+      "scale": 1
+    },
+    {
+      "category": "misc",
+      "visible": true,
+      "scale": 1
+    },
+    {
+      "category": "hidden",
+      "visible": false,
+      "scale": 1
+    }
+  ]
+}

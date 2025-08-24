@@ -1,0 +1,65 @@
+name: Extraer ainfo desde Neocities
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *' # cada día a las 3am UTC
+
+jobs:
+  scrap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clona tu repositorio
+        uses: actions/checkout@v3
+
+      - name: Instala BeautifulSoup
+        run: pip install requests beautifulsoup4
+
+      - name: Ejecuta scraper Python
+        run: |
+          python <<EOF
+          import requests
+          from bs4 import BeautifulSoup
+          import json
+          from collections import defaultdict
+          import os
+
+          url = "https://meowrhino.neocities.org/"
+          response = requests.get(url)
+          soup = BeautifulSoup(response.text, "html.parser")
+
+          ainfos = soup.find_all("ainfo")
+          all_links = soup.find_all("a")
+
+          data = defaultdict(list)
+          current = None
+
+          for el in soup.find(id="proyectes").children:
+              if el.name == "ainfo":
+                  current = el.get_text(strip=True)
+              elif el.name == "a" and current:
+                  href = el.get("href")
+                  if href:
+                      data[current].append(href)
+              elif el.name == "br":
+                  current = None
+
+          items = [{"name": k, "links": v} for k, v in data.items() if v]
+
+          with open("proyectos.json", "w", encoding="utf-8") as f:
+              json.dump(items, f, indent=2, ensure_ascii=False)
+          EOF
+
+      - name: Haz commit si hay cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add proyectos.json || true
+          git diff --cached --quiet || git commit -m "actualiza proyectos desde Neocities"
+
+      - name: Sube a GitHub
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main

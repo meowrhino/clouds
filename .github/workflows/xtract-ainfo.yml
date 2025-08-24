@@ -1,0 +1,94 @@
+name: Actualiza proyectos desde Neocities
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'  # todos los días a las 3 AM UTC
+
+jobs:
+  scrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo (main)
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Instala dependencias Python
+        run: pip install requests beautifulsoup4
+
+      - name: Generar proyectos.json
+        run: |
+          python <<EOF
+          import requests, json
+          from bs4 import BeautifulSoup, Comment
+
+          url = "https://meowrhino.neocities.org"
+          resp = requests.get(url)
+          soup = BeautifulSoup(resp.text, "html.parser")
+          container = soup.find("div", id="proyectes")
+
+          result = []
+          current_cat = None
+          current_proj = None
+          last_sup = ""
+
+          for node in container.children:
+              # 1) Comentario → nueva categoría
+              if isinstance(node, Comment):
+                  cat_title = node.string.strip()
+                  current_cat = { "category": cat_title, "projects": [] }
+                  result.append(current_cat)
+                  current_proj = None
+                  continue
+
+              # 2) <ainfo> → nuevo proyecto
+              if getattr(node, "name", None) == "ainfo" and current_cat is not None:
+                  proj_title = node.get_text(strip=True)
+                  current_proj = { "title": proj_title, "links": [] }
+                  current_cat["projects"].append(current_proj)
+                  last_sup = ""
+                  continue
+
+              # 3) <sup> → texto de sup para el siguiente enlace
+              if getattr(node, "name", None) == "sup" and current_proj is not None:
+                  last_sup = node.get_text(strip=True)
+                  continue
+
+              # 4) <a> → enlace con su sup (vacío si none)
+              if getattr(node, "name", None) == "a" and current_proj is not None:
+                  href = node.get("href")
+                  text = node.get_text(strip=True)
+                  current_proj["links"].append({
+                      "title": text,
+                      "url": href,
+                      "sup": last_sup
+                  })
+                  last_sup = ""
+                  continue
+
+              # 5) otros nodos (br, espacios, etc.) → ignorar
+
+          # Volcar JSON formateado
+          with open("proyectos.json", "w", encoding="utf-8") as f:
+              json.dump(result, f, indent=2, ensure_ascii=False)
+          EOF
+
+      - name: Commit cambios si los hay
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add proyectos.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto: actualiza proyectos.json desde Neocities"
+          fi
+
+      - name: Pull & rebase main
+        run: git pull --rebase origin main
+
+
+      - name: Push
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
