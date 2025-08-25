@@ -187,10 +187,12 @@ function createCloud(item, containerEl, category) {
     (window.innerWidth / window.innerHeight) *
     HEIGHT_FACTOR;
 
-  // aplica tamaño (sin height inline)
+  // aplica tamaño y fallback de aspect-ratio (evita “aplastado” si el CSS tarda)
   pre.style.width = `${widthVW}vw`;
   pre.style.removeProperty("height");
   pre.style.position = "absolute";
+  pre.style.aspectRatio = ASPECT; // fallback
+  pre.style.setProperty("--cloud-ratio", ASPECT);
 
   // márgenes de seguridad y altura de sección
   const sectionVH = sectionVHFor(category);
@@ -229,10 +231,12 @@ function updateAll() {
         (window.innerWidth / window.innerHeight) *
         HEIGHT_FACTOR;
 
-      // Nunca forzar height: respeta aspect-ratio
+      // Asegura ratio y limpia cualquier height inline SIEMPRE
+      pre.style.aspectRatio = ASPECT;
+      pre.style.setProperty("--cloud-ratio", ASPECT);
       pre.style.removeProperty("height");
 
-      // no muevas las fijas (pero sí quita su height arriba)
+      // no muevas las fijas (hero), pero ya les quitamos height arriba
       if (pre.dataset.fixed === "1") return;
 
       // valores actuales
@@ -494,6 +498,10 @@ function renderByCategory(rawData) {
 
   updateAll();
   watchZoomResize();
+
+  // doble tick por si CSS/Fonts llegan tarde
+  requestAnimationFrame(() => updateAll());
+  if (document.fonts?.ready) document.fonts.ready.then(updateAll);
 
   // dots a altura total del documento
   ensureDotContainer();
