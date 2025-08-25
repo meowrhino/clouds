@@ -17,13 +17,13 @@
   <div class="container container--content">
   </div>
 
-  <div class="pre-box box--palette" data-fixed="1">
+  <!-- <div class="pre-box box--palette" data-fixed="1">
     <div class="box box--palette">
       <span class="popup-trigger">
         <h4>open fun</h4>
       </span>
     </div>
-  </div>
+  </div> -->
 
   <div class="popup">
     <span class="close-popup">
@@ -115,6 +115,21 @@
     </div>
   </div>
 
+  <!-- al final del <body> -->
+<div id="open-fun" class="pre-box box--palette" data-fixed="1" aria-controls="palette-popup" aria-expanded="false">
+  <div class="box box--palette">
+    <span class="popup-trigger">
+      <h4>open fun</h4>
+    </span>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const of = document.getElementById('open-fun');
+  if (of && of.parentElement !== document.body) document.body.appendChild(of);
+});
+</script>
 
 
   <script>

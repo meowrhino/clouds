@@ -956,4 +956,20 @@ div.flex-column p {
   bottom: max(3vh, env(safe-area-inset-bottom));
 }
 
+/* Paso 1: sólo fijarlo y elevarlo */
+#open-fun {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9999;      /* por encima de nubes y popups */
+  pointer-events: auto;
+}
+#open-fun .box { width: 100%; height: 100%; }  /* que rellene su wrapper */
 
+/* Paso 2: tamaño fluido y safe-area */
+#open-fun {
+  width: clamp(160px, 18vw, 300px);
+  aspect-ratio: 1.55 / 1;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
+}
