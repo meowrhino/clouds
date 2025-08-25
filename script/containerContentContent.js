@@ -5,11 +5,11 @@ const DISABLED_CATEGORIES = new Set(["hidden"]); // añade aquí otras que quier
 // const CATEGORY_ORDER = ['main quests','side quests',"meowrhino's world",'fun apps','unfinished apps','texts','misc']; // opcional
 
 const CATEGORY_STYLE = {
-  "main quests":       { minVW: 16, maxVW: 28, factorMin: 0.9,  factorMax: 1.15, safeVW: 4, safeVH: 4, heightVH: 100 },
-  "side quests":       { minVW: 12, maxVW: 24, factorMin: 0.85, factorMax: 1.2,  heightVH: 100 },
-  "meowrhino's world": { minVW: 14, maxVW: 26, factorMin: 0.9,  factorMax: 1.2,  heightVH: 100 },
-  "fun apps":          { minVW: 11, maxVW: 22, factorMin: 0.85, factorMax: 1.15, heightVH: 100 },
-  "unfinished apps":   { minVW: 12, maxVW: 24, factorMin: 0.85, factorMax: 1.2,  heightVH: 100 },
+  "main quests":       { minVW: 40, maxVW: 80, factorMin: 0.9,  factorMax: 1.5,  heightVH: 100 },
+  "side quests":       { minVW: 20, maxVW: 40, factorMin: 0.85, factorMax: 1.2,  heightVH: 100 },
+  "meowrhino's world": { minVW: 20, maxVW: 40, factorMin: 0.9,  factorMax: 1.2,  heightVH: 50 },
+  "fun apps":          { minVW: 15, maxVW: 22, factorMin: 0.85, factorMax: 1.15, heightVH: 150 },
+  "unfinished apps":   { minVW: 16, maxVW: 24, factorMin: 0.85, factorMax: 1.2,  heightVH: 100 },
   "texts":             { minVW: 13, maxVW: 23, factorMin: 0.9,  factorMax: 1.15, heightVH: 100 },
   "misc":              { minVW: 12, maxVW: 24, factorMin: 0.85, factorMax: 1.2,  heightVH: 100 },
   default:             { minVW: 12, maxVW: 24, factorMin: 0.85, factorMax: 1.2,  heightVH: 100 }
@@ -137,13 +137,16 @@ function createCloud(item, containerEl, category) {
   const maxLeft = Math.max(st.safeVW, 100 - widthVW - st.safeVW);
   const leftVW = minLeft + Math.random() * Math.max(0, maxLeft - minLeft);
 
+  // Usar la altura de sección definida en CATEGORY_STYLE (por defecto 100vh)
+  const sectionVH = st.heightVH || 100;
   const minTop = st.safeVH;
-  const maxTop = Math.max(st.safeVH, 100 - heightVH - st.safeVH);
+  const maxTop = Math.max(st.safeVH, sectionVH - heightVH - st.safeVH);
   const topVH = minTop + Math.random() * Math.max(0, maxTop - minTop);
 
-  // guarda safes en data-* para reclampeo en resize
+  // guarda safes y altura de sección en data-* para reclampeo en resize
   pre.dataset.safeVw = String(st.safeVW);
   pre.dataset.safeVh = String(st.safeVH);
+  pre.dataset.sectionVh = String(sectionVH);
 
   pre.style.left = `${leftVW}vw`;
   pre.style.top = `${topVH}vh`;
@@ -160,17 +163,30 @@ function createCloud(item, containerEl, category) {
 function updateAll() {
   document.querySelectorAll(".clouds-container").forEach((cont) => {
     cont.querySelectorAll(".pre-box").forEach((pre) => {
-      // recalcular solo el top (vh) porque el aspect depende de la relación W/H del viewport
       const widthVW = parseFloat(pre.style.width);
-      const heightVH =
-        (widthVW * (window.innerWidth / window.innerHeight)) / 1.55;
-      const leftVW = parseFloat(pre.style.left) || 0;
-      const topVH = Math.max(
-        0,
-        Math.min(parseFloat(pre.style.top) || 0, 100 - heightVH)
-      );
+      const heightVH = (widthVW * (window.innerWidth / window.innerHeight)) / 1.55;
+
+      // valores actuales
+      let leftVW = parseFloat(pre.style.left) || SAFE_VW;
+      let topVH  = parseFloat(pre.style.top)  || SAFE_VH;
+
+      // márgenes por elemento (data-*) y altura de sección
+      const elSafeVW = parseFloat(pre.dataset.safeVw || "") || SAFE_VW;
+      const elSafeVH = parseFloat(pre.dataset.safeVh || "") || SAFE_VH;
+      const sectionVH = parseFloat(pre.dataset.sectionVh || "") || 100;
+
+      // límites dentro de la sección
+      const minLeft = elSafeVW;
+      const maxLeft = Math.max(elSafeVW, 100 - widthVW - elSafeVW);
+      const minTop  = elSafeVH;
+      const maxTop  = Math.max(elSafeVH, sectionVH - heightVH - elSafeVH);
+
+      // clampea y aplica
+      leftVW = Math.min(Math.max(leftVW, minLeft), maxLeft);
+      topVH  = Math.min(Math.max(topVH,  minTop ), maxTop );
+
       pre.style.left = `${leftVW}vw`;
-      pre.style.top = `${topVH}vh`;
+      pre.style.top  = `${topVH}vh`;
     });
   });
   // tras recolocar, alisa colisiones en cada sección
