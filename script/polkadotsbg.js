@@ -8,7 +8,7 @@ function generateDots() {
       dot.className = 'point';
       dot.textContent = '.'; // Puedes cambiar este carácter si lo prefieres
       dot.style.left = `${Math.random() * window.innerWidth}px`; // Posición horizontal aleatoria
-      dot.style.top = `${Math.random() * window.innerHeight*5}px`; // Posición vertical aleatoria
+      dot.style.top = `${Math.random() * window.innerHeight*8.5}px`; // Posición vertical aleatoria
       waveContainer.appendChild(dot);
     }
   }

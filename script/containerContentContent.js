@@ -4,109 +4,52 @@ const BASE = "https://meowrhino.neocities.org/";
 const DISABLED_CATEGORIES = new Set(["hidden"]); // añade aquí otras que quieras ocultar
 // const CATEGORY_ORDER = ['main quests','side quests',"meowrhino's world",'fun apps','unfinished apps','texts','misc']; // opcional
 
-const CATEGORY_STYLE = {
-  __hero__: {
-    minVW: 48,
-    maxVW: 90,
-    factorMin: 1.0,
-    factorMax: 1.3,
-    heightVH: 60,
-    safeVW: 6,
-    safeVH: 10,
-    firstMobileScale: 1.4,
-    firstScale: 1.2,
-    heroScale: 1.3,
-  },
-  "main quests": {
-    minVW: 40,
-    maxVW: 80,
-    factorMin: 0.9,
-    factorMax: 1.5,
-    heightVH: 100,
-  },
-  "side quests": {
-    minVW: 20,
-    maxVW: 40,
-    factorMin: 0.85,
-    factorMax: 1.2,
-    heightVH: 100,
-  },
-  "meowrhino's world": {
-    minVW: 20,
-    maxVW: 40,
-    factorMin: 0.9,
-    factorMax: 1.2,
-    heightVH: 50,
-  },
-  "fun apps": {
-    minVW: 15,
-    maxVW: 22,
-    factorMin: 0.85,
-    factorMax: 1.15,
-    heightVH: 150,
-  },
-  "unfinished apps": {
-    minVW: 16,
-    maxVW: 24,
-    factorMin: 0.85,
-    factorMax: 1.2,
-    heightVH: 100,
-  },
-  texts: {
-    minVW: 13,
-    maxVW: 23,
-    factorMin: 0.9,
-    factorMax: 1.15,
-    heightVH: 100,
-  },
-  misc: {
-    minVW: 12,
-    maxVW: 24,
-    factorMin: 0.85,
-    factorMax: 1.2,
-    heightVH: 100,
-  },
-  // valores por defecto y escalados generales
-  default: {
-    minVW: 12,
-    maxVW: 24,
-    factorMin: 0.85,
-    factorMax: 1.2,
-    heightVH: 100,
-    complexScale: 1.5,
-    firstMobileScale: 1.25,
-    firstScale: 1.0,
-    heroScale: 1.15,
-  },
+// === CONFIG SÚPER SIMPLE ===
+const CAT_SIZE = {
+  __hero__: 36, // ancho base en vw
+  "main quests": 30,
+  "side quests": 10,
+  "meowrhino's world": 24,
+  "fun apps": 8,
+  "unfinished apps": 8,
+  texts: 10,
+  misc: 10,
+  default: 22,
 };
 
+const CAT_SECTION_VH = {
+  __hero__: 100,
+  "fun apps": 150,
+  misc: 150,
+  default: 100,
+};
+
+// Diales globales
+const ASPECT = 1.6; // relación ancho/alto de la nube (16:10)
+const HEIGHT_FACTOR = 1; // no aplastar: manda aspect-ratio
 const SAFE_VW = 4;
 const SAFE_VH = 4;
 
-function getCatStyle(category) {
-  const cfg = CATEGORY_STYLE[category] || CATEGORY_STYLE.default;
-  return {
-    minVW: cfg.minVW ?? 12,
-    maxVW: cfg.maxVW ?? 24,
-    factorMin: cfg.factorMin ?? 0.85,
-    factorMax: cfg.factorMax ?? 1.2,
-    safeVW: cfg.safeVW ?? SAFE_VW,
-    safeVH: cfg.safeVH ?? SAFE_VH,
-    heightVH: cfg.heightVH ?? 100,
-    complexScale:
-      cfg.complexScale ?? CATEGORY_STYLE.default?.complexScale ?? 1.5,
-    firstMobileScale:
-      cfg.firstMobileScale ?? CATEGORY_STYLE.default?.firstMobileScale ?? 1.25,
-    firstScale: cfg.firstScale ?? CATEGORY_STYLE.default?.firstScale ?? 1.0,
-    heroScale: cfg.heroScale ?? CATEGORY_STYLE.default?.heroScale ?? 1.15,
-  };
+// variación de tamaño y escala global
+const SIZE_RANGE = { min: 0.95, max: 1.55 }; // 95%..155%
+const GLOBAL_SCALE = 1.2; // amplía todas las nubes (excepto hero)
+
+function sizeFor(cat) {
+  return CAT_SIZE[cat] ?? CAT_SIZE.default;
+}
+function sectionVHFor(cat) {
+  return CAT_SECTION_VH[cat] ?? CAT_SECTION_VH.default;
+}
+function randSize(base) {
+  const f = SIZE_RANGE.min + Math.random() * (SIZE_RANGE.max - SIZE_RANGE.min);
+  return base * f;
 }
 
 // === Utilidades ===
 function normalizeLink(link) {
   if (!link) return "#";
   const s = String(link).trim();
-  if (/^(https?:|mailto:|tel:|\/\/|#)/i.test(s)) return s;
+  if (/^(https?:|mailto:|tel:\/\/|\/\/|#)/i.test(s)) return s;
   return new URL(s, BASE).toString();
 }
 function getRandomFactor() {
@@ -142,6 +85,29 @@ function romanize(n) {
   return res.toLowerCase();
 }
 
+function ensureDotContainer() {
+  let dot = document.getElementById("dot-container");
+  if (!dot) {
+    dot = document.createElement("div");
+    dot.id = "dot-container";
+    dot.className = "dot-container";
+    dot.style.position = "absolute";
+    dot.style.left = "0";
+    dot.style.top = "0";
+    dot.style.width = "100%";
+    dot.style.zIndex = "0";
+    dot.style.pointerEvents = "none";
+    document.body.prepend(dot);
+  }
+  // altura real del documento
+  const h = Math.max(
+    document.body.scrollHeight,
+    document.documentElement.scrollHeight
+  );
+  dot.style.height = `${h}px`;
+  return dot;
+}
+
 // === Núcleo: crear UNA nube dentro de un contenedor dado ===
 function createCloud(item, containerEl, category) {
   const pre = document.createElement("div");
@@ -158,17 +124,26 @@ function createCloud(item, containerEl, category) {
   const links = Array.isArray(item.links) ? item.links : [];
 
   if (links.length <= 1) {
-    const h5 = document.createElement("h5");
-    const a = document.createElement("a");
-    a.href = normalizeLink(links[0] || "#");
-    a.textContent = item.name || "(sin nombre)";
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    h5.appendChild(a);
-    h5.style.margin = "0";
-    a.style.display = "inline-block";
-    a.style.lineHeight = "1";
-    box.appendChild(h5);
+    if (category === "__hero__") {
+      // HERO: H1 sin <a>
+      const h1 = document.createElement("h1");
+      h1.textContent = item.name || "(sin nombre)";
+      h1.style.margin = "0";
+      box.appendChild(h1);
+    } else {
+      // Resto: mantiene h5 + link
+      const h5 = document.createElement("h5");
+      const a = document.createElement("a");
+      a.href = normalizeLink(links[0] || "#");
+      a.textContent = item.name || "(sin nombre)";
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      h5.appendChild(a);
+      h5.style.margin = "0";
+      a.style.display = "inline-block";
+      a.style.lineHeight = "1";
+      box.appendChild(h5);
+    }
   } else {
     box.classList.add("flex-column");
     const h4 = document.createElement("h4");
@@ -201,63 +176,35 @@ function createCloud(item, containerEl, category) {
     box.appendChild(p);
   }
 
-  // ---- tamaño y posición con vw/vh (sin tocar tu CSS global) ----
-  // usamos aspect-ratio para mantener la forma; ancho en vw
-  const st = getCatStyle(category);
-  const factor = st.factorMin + Math.random() * (st.factorMax - st.factorMin);
-  const linkCount = links.length;
+  // ---- tamaño y posición con vw/vh (versión simple) ----
+  const baseVW =
+    sizeFor(category) * (category === "__hero__" ? 1 : GLOBAL_SCALE);
+  const widthVW = randSize(baseVW);
 
-  // tamaño base por categoría
-  let widthVW = (st.minVW + Math.random() * (st.maxVW - st.minVW)) * factor;
+  // altura SOLO para cálculos (no se asigna inline)
+  const heightVH =
+    (widthVW / ASPECT) *
+    (window.innerWidth / window.innerHeight) *
+    HEIGHT_FACTOR;
 
-  // heurística de escala: nubes "complejas" (con lista de enlaces)
-  if (linkCount > 1) {
-    widthVW *= st.complexScale; // ej. 1.5 por defecto
-  } else if (linkCount > 5) {
-    // compat con antiguo ensanchado (por si hay un título largo con 1 link)
-    widthVW += Math.min(12, (linkCount - 5) * 0.9);
-  }
-
-  // primera nube de la sección más grande (sobre todo en móvil)
-  const isFirstInSection =
-    containerEl.querySelectorAll(".pre-box").length === 0;
-  if (isFirstInSection) {
-    widthVW *= st.firstScale;
-    if (window.matchMedia("(max-width: 600px)").matches) {
-      widthVW *= st.firstMobileScale; // ej. 1.25 por defecto
-    }
-  }
-
-  // "hero" por nombre (ej: meowrhino)
-  const nm = (item.name || "").toLowerCase();
-  if (nm.includes("meowrhino")) {
-    widthVW *= st.heroScale; // pequeño boost visual
-  }
-
+  // aplica tamaño (sin height inline)
   pre.style.width = `${widthVW}vw`;
-  pre.style.aspectRatio = "1.55 / 1"; // height = width / 1.55
+  pre.style.removeProperty("height");
   pre.style.position = "absolute";
 
-  // mínimo razonable para evitar que títulos largos colapsen la nube
-  widthVW = Math.max(widthVW, st.minVW);
-
-  // para el bounding vertical en vh necesitamos saber la altura equivalente en vh:
-  const heightVH = (widthVW * (window.innerWidth / window.innerHeight)) / 1.55;
-
-  // Márgenes de seguridad para no pegar al borde
-  const minLeft = st.safeVW;
-  const maxLeft = Math.max(st.safeVW, 100 - widthVW - st.safeVW);
+  // márgenes de seguridad y altura de sección
+  const sectionVH = sectionVHFor(category);
+  const minLeft = SAFE_VW;
+  const maxLeft = Math.max(SAFE_VW, 100 - widthVW - SAFE_VW);
   const leftVW = minLeft + Math.random() * Math.max(0, maxLeft - minLeft);
 
-  // Usar la altura de sección definida en CATEGORY_STYLE (por defecto 100vh)
-  const sectionVH = st.heightVH || 100;
-  const minTop = st.safeVH;
-  const maxTop = Math.max(st.safeVH, sectionVH - heightVH - st.safeVH);
+  const minTop = SAFE_VH;
+  const maxTop = Math.max(SAFE_VH, sectionVH - heightVH - SAFE_VH);
   const topVH = minTop + Math.random() * Math.max(0, maxTop - minTop);
 
   // guarda safes y altura de sección en data-* para reclampeo en resize
-  pre.dataset.safeVw = String(st.safeVW);
-  pre.dataset.safeVh = String(st.safeVH);
+  pre.dataset.safeVw = String(SAFE_VW);
+  pre.dataset.safeVh = String(SAFE_VH);
   pre.dataset.sectionVh = String(sectionVH);
 
   pre.style.left = `${leftVW}vw`;
@@ -276,10 +223,17 @@ function createCloud(item, containerEl, category) {
 function updateAll() {
   document.querySelectorAll(".clouds-container").forEach((cont) => {
     cont.querySelectorAll(".pre-box").forEach((pre) => {
-      if (pre.dataset.fixed === "1") return;
       const widthVW = parseFloat(pre.style.width);
       const heightVH =
-        (widthVW * (window.innerWidth / window.innerHeight)) / 1.55;
+        (widthVW / ASPECT) *
+        (window.innerWidth / window.innerHeight) *
+        HEIGHT_FACTOR;
+
+      // Nunca forzar height: respeta aspect-ratio
+      pre.style.removeProperty("height");
+
+      // no muevas las fijas (pero sí quita su height arriba)
+      if (pre.dataset.fixed === "1") return;
 
       // valores actuales
       let leftVW = parseFloat(pre.style.left) || SAFE_VW;
@@ -319,7 +273,9 @@ function pxToVh(px) {
 }
 
 function resolveOverlapsInSection(section, iterations = 120) {
-  const items = Array.from(section.querySelectorAll(".pre-box:not([data-fixed='1'])"));
+  const items = Array.from(
+    section.querySelectorAll(".pre-box:not([data-fixed='1'])")
+  );
   if (items.length < 2) return;
 
   const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
@@ -348,9 +304,15 @@ function resolveOverlapsInSection(section, iterations = 120) {
           const pushY = pxToVh(overlapY / 2 + 1);
 
           const aw = parseFloat(a.style.width);
-          const ah = (aw * (window.innerWidth / window.innerHeight)) / 1.55;
+          const ah =
+            (aw / ASPECT) *
+            (window.innerWidth / window.innerHeight) *
+            HEIGHT_FACTOR;
           const bw = parseFloat(b.style.width);
-          const bh = (bw * (window.innerWidth / window.innerHeight)) / 1.55;
+          const bh =
+            (bw / ASPECT) *
+            (window.innerWidth / window.innerHeight) *
+            HEIGHT_FACTOR;
 
           const aSafeW = parseFloat(a.dataset.safeVw || "0");
           const aSafeH = parseFloat(a.dataset.safeVh || "0");
@@ -455,30 +417,16 @@ function renderByCategory(rawData) {
 
   // Hero y altura total (héroe + categorías)
   const HERO_ENABLED = true;
-  const heroStyle = getCatStyle("__hero__");
   const totalVh =
-    (HERO_ENABLED ? heroStyle.heightVH || 60 : 0) +
-    enabled.reduce((sum, [cat]) => sum + (getCatStyle(cat).heightVH || 100), 0);
+    (HERO_ENABLED ? sectionVHFor("__hero__") : 0) +
+    enabled.reduce((sum, [cat]) => sum + sectionVHFor(cat), 0);
   ROOT.style.height = `${totalVh}vh`;
   ROOT.style.setProperty("--sections", String(enabled.length)); // por compat
   const wrapper = ROOT.closest(".container");
   if (wrapper) wrapper.style.minHeight = `${totalVh}vh`;
 
-  // Reubica el fondo de puntos dentro de ROOT y estíralo a todo el alto
-  const dot = document.querySelector(".dot-container");
-  if (dot) {
-    dot.style.position = "absolute";
-    dot.style.inset = "0";
-    dot.style.width = "100%";
-    dot.style.height = "100%";
-    dot.style.minHeight = "100%";
-    dot.style.zIndex = "0";
-    dot.style.pointerEvents = "none";
-  }
-
   // 5) Pinta secciones 100vh por categoría
   ROOT.innerHTML = "";
-  if (dot) ROOT.prepend(dot); // queda como primer hijo (fondo)
 
   // Inserta la sección HERO al principio
   if (HERO_ENABLED) {
@@ -486,8 +434,7 @@ function renderByCategory(rawData) {
     section.className = "category-section";
     section.dataset.category = "__hero__";
 
-    const stHero = getCatStyle("__hero__");
-    section.style.height = `${stHero.heightVH}vh`;
+    section.style.height = `${sectionVHFor("__hero__")}vh`;
     section.style.width = "100vw";
     section.style.position = "relative";
     section.style.overflow = "visible";
@@ -513,8 +460,7 @@ function renderByCategory(rawData) {
     section.dataset.category = category;
 
     // sección pantalla completa sin depender del CSS externo
-    const stCat = getCatStyle(category);
-    section.style.height = `${stCat.heightVH}vh`;
+    section.style.height = `${sectionVHFor(category)}vh`;
     section.style.width = "100vw";
     section.style.position = "relative";
     section.style.overflow = "visible";
@@ -548,6 +494,10 @@ function renderByCategory(rawData) {
 
   updateAll();
   watchZoomResize();
+
+  // dots a altura total del documento
+  ensureDotContainer();
+  window.dispatchEvent(new Event("clouds:rendered"));
 }
 
 // === Inicio ===
