@@ -541,8 +541,15 @@ function attachMobileRerender(){
 
 /** Re-shuffle / re-render clouds on demand (used by "remover nubes") */
 function updatePositions(){
-  if (window.CLOUDS_DATA){
+  function rerender(){ 
     document.querySelectorAll('.category-section').forEach(n => n.remove());
     renderByCategory(window.CLOUDS_DATA);
   }
+  
+  if (!window.CLOUDS_DATA){
+    fetch("proyectos.json").then(r=>r.json()).then(d=>{ window.CLOUDS_DATA=d; rerender(); });
+  } else {
+    rerender();
+  }
 }
+
