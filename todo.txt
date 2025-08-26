@@ -1,0 +1,5 @@
+en movil me molesta un poco que no tengo claro si las nubes aprovechan o no el espacio extra que hay! 
+
+croe que se intentan no amontonar
+
+y creo que las custom vh no se toman en cuenta  ala hora de generar las nubes den cada categoria (como lade misc en el ordenador)
