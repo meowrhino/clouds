@@ -25,7 +25,7 @@
     </div>
   </div> -->
 
-  <div class="popup">
+  <div id="palette-popup" class="popup">
 <div class="pre-box--shadow">
       <div class="pre-box">
         <div class="box">
@@ -128,28 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 
-  <script>
-    document.querySelector('.popup-trigger').addEventListener('click', () => {
-      document.querySelector('.popup').classList.add('active');
-    });
-
-    document.querySelector('.close-popup').addEventListener('click', () => {
-      document.querySelector('.popup').classList.remove('active');
-    });
-
-    document.querySelectorAll('.color-picker').forEach(picker => {
-      picker.addEventListener('input', (e) => {
-        const colorVar = e.target.dataset.colorVar;
-        document.documentElement.style.setProperty(colorVar, e.target.value);
-      });
-
-      // Set initial color picker values
-      const colorVar = picker.dataset.colorVar;
-      const currentColor = getComputedStyle(document.documentElement)
-        .getPropertyValue(colorVar);
-      picker.value = currentColor;
-    });
-  </script>
+  
 
   <script src="script/randomPosition.js"></script>
   <script src="script/containerContentContent.js"></script>

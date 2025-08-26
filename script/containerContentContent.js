@@ -6,7 +6,7 @@ const DISABLED_CATEGORIES = new Set(["hidden"]); // añade aquí otras que quier
 
 // === CONFIG SÚPER SIMPLE ===
 const CAT_SIZE = {
-  __hero__: 40, // ancho base en vw
+  __hero__: 50, // ancho base en vw
   "main quests": 30,
   "side quests": 10,
   "meowrhino's world": 24,
@@ -536,4 +536,13 @@ function attachMobileRerender(){
       }
     }
   });
+}
+
+
+/** Re-shuffle / re-render clouds on demand (used by "remover nubes") */
+function updatePositions(){
+  if (window.CLOUDS_DATA){
+    document.querySelectorAll('.category-section').forEach(n => n.remove());
+    renderByCategory(window.CLOUDS_DATA);
+  }
 }

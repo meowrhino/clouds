@@ -1059,3 +1059,88 @@ div.flex-column p {
   width: min(980px, calc(100vw - var(--popup-margin) * 2));
   aspect-ratio: 16 / 10;
 }
+
+
+/* === Popup sizing refine (desktop smaller, mobile no clip) === */
+:root { --popup-margin: clamp(12px, 3vw, 36px); }
+.popup { align-items: center; justify-content: center; }
+
+.popup .pre-box {
+  width: min(860px, calc(100vw - var(--popup-margin)*2));
+  max-height: calc(100vh - var(--popup-margin)*2);
+  aspect-ratio: 16 / 10;
+}
+.popup .box {
+  width: 100%; height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  padding: clamp(12px, 2.2vw, 24px);
+  scrollbar-gutter: stable both-edges;
+}
+
+@media (max-width: 480px){
+  .popup .pre-box {
+    width: calc(100vw - var(--popup-margin)*2);
+    max-height: calc(100vh - var(--popup-margin)*2);
+  }
+  .popup .box { padding: 14px; }
+}
+/* === End refine === */
+
+
+
+/* ==============================
+   POPUP SIZE KNOBS — EDIT HERE
+   ------------------------------
+   • --popup-margin: márgenes exteriores del popup en px/vw
+   • --popup-maxw-desktop: ancho máximo en desktop (sube/baja)
+   • --popup-aspect: relación ancho/alto del cloud del popup
+   En móvil redefinimos --popup-margin para más aire si quieres.
+   ============================== */
+:root{
+  --popup-margin: clamp(12px, 3vw, 36px);      /* 👈 AJUSTA AQUÍ (margen) */
+  --popup-maxw-desktop: 820px;                 /* 👈 AJUSTA AQUÍ (ancho desktop) */
+  --popup-aspect: 16 / 10;                     /* 👈 AJUSTA AQUÍ (aspect) */
+}
+@media (max-width: 480px){
+  :root{
+    --popup-margin: clamp(10px, 5vw, 24px);    /* 👈 margen en móvil */
+  }
+}
+
+/* Unificamos estilos del popup (sobre-escribe los previos) */
+.popup{
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.45);
+  z-index: 1000;
+}
+.popup.active{ display:flex; }
+
+/* Pre-box del popup: tamaño consistente con margen y aspecto */
+.popup .pre-box{
+  position: relative !important;
+  width: min(var(--popup-maxw-desktop), calc(100vw - var(--popup-margin)*2)) !important;
+  max-height: calc(100vh - var(--popup-margin)*2) !important;
+  aspect-ratio: var(--popup-aspect) !important;
+  padding: 0 !important;
+  filter: drop-shadow(0 0 0 var(--color-3)) drop-shadow(0 10px 0 rgba(0,0,0,.18));
+}
+
+/* Caja interna ocupa todo y scrollea si hace falta */
+.popup .box{
+  width: 100% !important;
+  height: 100% !important;
+  overflow: auto !important;
+  box-sizing: border-box;
+  padding: clamp(12px, 2.2vw, 24px);
+  background: var(--color-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  scrollbar-gutter: stable both-edges;
+}
