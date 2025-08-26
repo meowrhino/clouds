@@ -28,5 +28,5 @@
   window.addEventListener('load', regen);
   window.addEventListener('resize', regen);
   window.addEventListener('clouds:rendered', regen);
-  setInterval(regen, 1500); // gentle refresh in case of dynamic changes
+  setInterval(regen, 420); // gentle refresh in case of dynamic changes
 })();
