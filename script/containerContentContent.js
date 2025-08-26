@@ -6,7 +6,7 @@ const DISABLED_CATEGORIES = new Set(["hidden"]); // añade aquí otras que quier
 
 // === CONFIG SÚPER SIMPLE ===
 const CAT_SIZE = {
-  __hero__: 36, // ancho base en vw
+  __hero__: 40, // ancho base en vw
   "main quests": 30,
   "side quests": 10,
   "meowrhino's world": 24,
@@ -18,7 +18,8 @@ const CAT_SIZE = {
 };
 
 const CAT_SECTION_VH = {
-  __hero__: 100,
+  __hero__: 70,
+  "main quests": 50,
   "fun apps": 150,
   misc: 150,
   default: 100,
@@ -33,6 +34,10 @@ const SAFE_VH = 4;
 // variación de tamaño y escala global
 const SIZE_RANGE = { min: 0.95, max: 1.55 }; // 95%..155%
 const GLOBAL_SCALE = 1.2; // amplía todas las nubes (excepto hero)
+const MOBILE_BREAK = 480;            // px
+const BASE_SCALE_DESKTOP = 1; // base multiplier for desktop
+const BASE_SCALE_MOBILE  = 1.5; // base multiplier for mobile (≤480px)
+function baseScale(){ return window.matchMedia(`(max-width: ${MOBILE_BREAK}px)`).matches ? BASE_SCALE_MOBILE : BASE_SCALE_DESKTOP; }
 
 function sizeFor(cat) {
   return CAT_SIZE[cat] ?? CAT_SIZE.default;
@@ -54,7 +59,7 @@ function normalizeLink(link) {
 }
 function getRandomFactor() {
   const isMobile = window.matchMedia("(max-width: 600px)").matches;
-  return isMobile ? 0.65 + Math.random() * 1.0 : 0.85 + Math.random() * 1.2;
+  return isMobile ? 0.95 + Math.random() * 1.2 : 0.85 + Math.random() * 1.2;
 }
 // Romanos hasta 3999 (minúsculas)
 function romanize(n) {
@@ -177,8 +182,7 @@ function createCloud(item, containerEl, category) {
   }
 
   // ---- tamaño y posición con vw/vh (versión simple) ----
-  const baseVW =
-    sizeFor(category) * (category === "__hero__" ? 1 : GLOBAL_SCALE);
+  const baseVW = sizeFor(category) * baseScale() * (category === "__hero__" ? 1 : GLOBAL_SCALE);
   const widthVW = randSize(baseVW);
 
   // altura SOLO para cálculos (no se asigna inline)
@@ -464,7 +468,8 @@ function renderByCategory(rawData) {
     section.dataset.category = category;
 
     // sección pantalla completa sin depender del CSS externo
-    section.style.height = `${sectionVHFor(category)}vh`;
+    const MOBILE_SECTION_MULT = 1.4; const mult = window.matchMedia('(max-width: 480px)').matches ? MOBILE_SECTION_MULT : 1;
+    section.style.height = `${sectionVHFor(category) * mult}vh`;
     section.style.width = "100vw";
     section.style.position = "relative";
     section.style.overflow = "visible";
@@ -513,3 +518,22 @@ fetch("proyectos.json")
   .then((r) => r.json())
   .then(renderByCategory)
   .catch((e) => console.error("Error cargando proyectos:", e));
+
+
+// Re-render on mobile breakpoint change so clouds refit sizes/space
+function attachMobileRerender(){
+  const mql = window.matchMedia(`(max-width: ${MOBILE_BREAK}px)`);
+  let last = mql.matches;
+  function clearSections(){
+    document.querySelectorAll('.category-section').forEach(n => n.remove());
+  }
+  mql.addEventListener('change', (e)=>{
+    if (e.matches !== last){
+      last = e.matches;
+      if (window.CLOUDS_DATA){
+        clearSections();
+        renderByCategory(window.CLOUDS_DATA);
+      }
+    }
+  });
+}
