@@ -9,6 +9,18 @@
   ],
   "side quests": [
     {
+      "name": "zumiño.ppt",
+      "links": [
+        "https://meowrhino.github.io/zumino/"
+      ]
+    },
+    {
+      "name": "mikesx cd's",
+      "links": [
+        "https://meowrhino.github.io/mikesx/"
+      ]
+    },
+    {
       "name": "viciostorpes",
       "links": [
         "https://meowrhino.github.io/viciostorpes/"
@@ -60,12 +72,6 @@
       "name": "e3000",
       "links": [
         "https://meowrhino.github.io/e300/"
-      ]
-    },
-    {
-      "name": "rikamichieCard",
-      "links": [
-        "https://meowrhino.github.io/rikamichiev0/"
       ]
     }
   ],
@@ -209,6 +215,12 @@
     }
   ],
   "unfinished apps": [
+    {
+      "name": "rikamichieCard",
+      "links": [
+        "https://meowrhino.github.io/rikamichiev0/"
+      ]
+    },
     {
       "name": "plantitas",
       "links": [
