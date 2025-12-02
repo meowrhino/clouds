@@ -1,7 +1,7 @@
 {
   "main quests": [
     {
-      "name": "becas digitalización meowrhino",
+      "name": "meowrhino.studio",
       "links": [
         "https://meowrhino.github.io/becasDigMeow/"
       ]
@@ -120,6 +120,12 @@
     }
   ],
   "fun apps": [
+    {
+      "name": "webP converter",
+      "links": [
+        "https://meowrhino.github.io/imgToWeb/"
+      ]
+    },
     {
       "name": "piuler",
       "links": [
