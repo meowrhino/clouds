@@ -109,6 +109,12 @@
       "links": [
         "https://matchacafe.manus.space"
       ]
+    },
+    {
+      "name": "unofficial tarifas base",
+      "links": [
+        "https://meowrhino.github.io/tarifas2026/"
+      ]
     }
   ],
   "meowrhino's world": [
@@ -131,7 +137,19 @@
       ]
     },
     {
-      "name": "older becas digitalización meowrhino",
+      "name": "archivo kung fú",
+      "links": [
+        "https://meowrhino.github.io/arwuchivo/"
+      ]
+    },
+    {
+      "name": "cielo en barcelona",
+      "links": [
+        "https://meowrhino.github.io/cielo/"
+      ]
+    },
+    {
+      "name": "becas digMeow archive",
       "links": [
         "https://meowrhino.github.io/becasDigMeow_v0/"
       ]
@@ -148,6 +166,18 @@
       "name": "webM converter",
       "links": [
         "https://meowrhino.github.io/videoToWeb/"
+      ]
+    },
+    {
+      "name": "navicon converter",
+      "links": [
+        "https://meowrhino.github.io/imgToNavicon/"
+      ]
+    },
+    {
+      "name": "colorFun",
+      "links": [
+        "https://meowrhino.github.io/colorFun/"
       ]
     },
     {
