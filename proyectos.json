@@ -29,7 +29,8 @@
     {
       "name": "safeamorx",
       "links": [
-        "https://meowrhino.github.io/safeAmorx/"
+        "https://meowrhino.github.io/safeAmorx/",
+        "https://meowrhino.github.io/safeAmorxV2/"
       ]
     },
     {
@@ -113,7 +114,7 @@
     {
       "name": "unofficial tarifas base",
       "links": [
-        "https://meowrhino.github.io/tarifas2026/"
+        "https://meowrhino.github.io/tarifas2026_DEPRECATED/"
       ]
     }
   ],
@@ -169,15 +170,39 @@
       ]
     },
     {
+      "name": "colorFun",
+      "links": [
+        "https://meowrhino.github.io/colorFun/"
+      ]
+    },
+    {
+      "name": "calculadora Impuestos",
+      "links": [
+        "https://meowrhino.github.io/calculadoraInversa/"
+      ]
+    },
+    {
+      "name": "facture generator",
+      "links": [
+        "https://meowrhino.github.io/generadorFacturas/"
+      ]
+    },
+    {
       "name": "navicon converter",
       "links": [
         "https://meowrhino.github.io/imgToNavicon/"
       ]
     },
     {
-      "name": "colorFun",
+      "name": "meowrhino tarifas",
       "links": [
-        "https://meowrhino.github.io/colorFun/"
+        "https://meowrhino.github.io/tarifasCalculadora/"
+      ]
+    },
+    {
+      "name": "projectChat",
+      "links": [
+        "https://meowrhino.github.io/projectChat/"
       ]
     },
     {
