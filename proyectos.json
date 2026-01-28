@@ -9,9 +9,39 @@
   ],
   "side quests": [
     {
-      "name": "mirandas",
+      "name": "miranda",
       "links": [
         "https://meowrhino.github.io/mirandaperezhita/"
+      ]
+    },
+    {
+      "name": "andrea carilla",
+      "links": [
+        "https://meowrhino.github.io/andreacarilla/"
+      ]
+    },
+    {
+      "name": "e3000",
+      "links": [
+        "https://meowrhino.github.io/e300/"
+      ]
+    },
+    {
+      "name": "paula barjau",
+      "links": [
+        "https://meowrhino.github.io/paulabarjau/"
+      ]
+    },
+    {
+      "name": "rikamichie",
+      "links": [
+        "https://meowrhino.github.io/rikamichie/"
+      ]
+    },
+    {
+      "name": "jaume clotet",
+      "links": [
+        "https://meowrhino.github.io/jaumeclotet/"
       ]
     },
     {
@@ -21,9 +51,21 @@
       ]
     },
     {
-      "name": "paula barjau",
+      "name": "elmundodelasjordis",
       "links": [
-        "https://meowrhino.github.io/paulabarjau/"
+        "https://meowrhino.github.io/elmundodelasjordis/"
+      ]
+    },
+    {
+      "name": "berta esteve",
+      "links": [
+        "https://meowrhino.github.io/snerta/"
+      ]
+    },
+    {
+      "name": "conor",
+      "links": [
+        "https://meowrhino.github.io/conor/"
       ]
     },
     {
@@ -40,12 +82,6 @@
       ]
     },
     {
-      "name": "elmundodelasjordis.com",
-      "links": [
-        "https://elmundodelasjordis.com/"
-      ]
-    },
-    {
       "name": "zumiño.ppt",
       "links": [
         "https://meowrhino.github.io/zumino/"
@@ -58,27 +94,9 @@
       ]
     },
     {
-      "name": "rikamichie",
-      "links": [
-        "https://meowrhino.github.io/rikamichie/"
-      ]
-    },
-    {
       "name": "hifas studio",
       "links": [
         "https://meowrhino.github.io/anakatana/"
-      ]
-    },
-    {
-      "name": "andrea carilla",
-      "links": [
-        "https://meowrhino.github.io/andreacarilla/"
-      ]
-    },
-    {
-      "name": "jaume clotet",
-      "links": [
-        "https://meowrhino.github.io/jaumeclotet/"
       ]
     },
     {
@@ -91,18 +109,6 @@
       "name": "villa granota",
       "links": [
         "https://meowrhino.github.io/villagranota/"
-      ]
-    },
-    {
-      "name": "berta esteve",
-      "links": [
-        "https://meowrhino.github.io/snerta/"
-      ]
-    },
-    {
-      "name": "e3000",
-      "links": [
-        "https://meowrhino.github.io/e300/"
       ]
     },
     {
