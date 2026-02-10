@@ -9,21 +9,39 @@
   ],
   "side quests": [
     {
+      "name": "conor",
+      "links": [
+        "https://meowrhino.github.io/conor/"
+      ]
+    },
+    {
+      "name": "diegosanmarcos",
+      "links": [
+        "https://meowrhino.github.io/diegosanmarcos/"
+      ]
+    },
+    {
+      "name": "new meowrhino.studio",
+      "links": [
+        "https://meowrhino.github.io/studio/"
+      ]
+    },
+    {
       "name": "miranda",
       "links": [
-        "https://meowrhino.github.io/mirandaperezhita/"
+        "mirandaperezhita.com"
       ]
     },
     {
       "name": "andrea carilla",
       "links": [
-        "https://meowrhino.github.io/andreacarilla/"
+        "andreacarilla.work"
       ]
     },
     {
       "name": "e3000",
       "links": [
-        "https://meowrhino.github.io/e300/"
+        "estructuras3000.com"
       ]
     },
     {
@@ -35,37 +53,31 @@
     {
       "name": "rikamichie",
       "links": [
-        "https://meowrhino.github.io/rikamichie/"
+        "rikamichie.com"
       ]
     },
     {
       "name": "jaume clotet",
       "links": [
-        "https://meowrhino.github.io/jaumeclotet/"
+        "jaumeclotet.com"
       ]
     },
     {
       "name": "mikesx cd's",
       "links": [
-        "https://meowrhino.github.io/mikesx/"
+        "mikebros.com"
       ]
     },
     {
       "name": "elmundodelasjordis",
       "links": [
-        "https://meowrhino.github.io/elmundodelasjordis/"
+        "elmundodelasjordis.com"
       ]
     },
     {
       "name": "berta esteve",
       "links": [
-        "https://meowrhino.github.io/snerta/"
-      ]
-    },
-    {
-      "name": "conor",
-      "links": [
-        "https://meowrhino.github.io/conor/"
+        "bertaesteve.cat"
       ]
     },
     {
@@ -90,7 +102,8 @@
     {
       "name": "viciostorpes",
       "links": [
-        "https://meowrhino.github.io/viciostorpes/"
+        "https://meowrhino.github.io/viciostorpes/",
+        "https://meowrhino.github.io/viciostorpesV2/"
       ]
     },
     {
