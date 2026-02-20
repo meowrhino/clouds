@@ -177,6 +177,12 @@
   ],
   "fun apps": [
     {
+      "name": "trackr",
+      "links": [
+        "https://meowrhino.github.io/trackr/"
+      ]
+    },
+    {
       "name": "webP converter",
       "links": [
         "https://meowrhino.github.io/imgToWeb/"
