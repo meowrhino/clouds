@@ -3,7 +3,7 @@ name: Extraer ainfo desde Neocities
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * *'  # cada día a las 3am UTC
+    - cron: '59 23 * * 0'  # cada domingo ~00:00 UTC (mismo tempo que profilepicsUpdater)
 
 permissions:
   contents: write
