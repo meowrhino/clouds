@@ -2,25 +2,34 @@
 const ROOT = document.querySelector(".container--content");
 const BASE = "https://meowrhino.neocities.org/";
 const DISABLED_CATEGORIES = new Set(["hidden"]); // añade aquí otras que quieras ocultar
-// const CATEGORY_ORDER = ['main quests','side quests',"meowrhino's world",'fun apps','unfinished apps','texts','misc']; // opcional
+// const CATEGORY_ORDER = ['main quests','side quests','WIP',"meowrhino's world",'tools','games','experiments','social apps','unfinished apps','texts','misc']; // opcional
 
 // === CONFIG SÚPER SIMPLE ===
 const CAT_SIZE = {
   __hero__: 50, // ancho base en vw
-  "main quests": 30,
-  "side quests": 10,
-  "meowrhino's world": 24,
-  "fun apps": 8,
-  "unfinished apps": 8,
-  texts: 10,
-  misc: 10,
+  "main quests": 30,      // 1 proyecto
+  "side quests": 8,        // 16 proyectos
+  WIP: 12,                 // 4 proyectos
+  "meowrhino's world": 18, // 7 proyectos
+  tools: 8,                // 17 proyectos
+  games: 10,               // 10 proyectos
+  experiments: 8,           // 16 proyectos
+  "social apps": 12,        // 5 proyectos
+  "unfinished apps": 7,     // 25 proyectos
+  texts: 10,               // 7 proyectos
+  misc: 10,                // 16 proyectos
   default: 22,
 };
 
 const CAT_SECTION_VH = {
   __hero__: 70,
   "main quests": 50,
-  "fun apps": 150,
+  "side quests": 150,       // 16 proyectos (antes era default 100)
+  WIP: 80,                  // 4 proyectos
+  tools: 150,               // 17 proyectos
+  experiments: 150,          // 16 proyectos
+  "social apps": 80,         // 5 proyectos
+  "unfinished apps": 180,    // 25 proyectos (antes era default 100)
   misc: 150,
   default: 100,
 };

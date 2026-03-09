@@ -1100,11 +1100,11 @@ div.flex-column p {
 :root{
   --popup-margin: clamp(12px, 3vw, 36px);      /* 👈 AJUSTA AQUÍ (margen) */
   --popup-maxw-desktop: 820px;                 /* 👈 AJUSTA AQUÍ (ancho desktop) */
-  --popup-aspect: 16 / 10;                     /* 👈 AJUSTA AQUÍ (aspect) */
+  /* --popup-aspect: 16 / 10;   Eliminado según instrucciones */
 }
 @media (max-width: 480px){
   :root{
-    --popup-margin: clamp(10px, 5vw, 24px);    /* 👈 margen en móvil */
+    --popup-margin: clamp(16px, 6vw, 32px);    /* 👈 margen en móvil aumentado */
   }
 }
 
@@ -1125,9 +1125,12 @@ div.flex-column p {
   position: relative !important;
   width: min(var(--popup-maxw-desktop), calc(100vw - var(--popup-margin)*2)) !important;
   max-height: calc(100vh - var(--popup-margin)*2) !important;
-  aspect-ratio: var(--popup-aspect) !important;
+  /* aspect-ratio: var(--popup-aspect) !important;  Eliminado según instrucciones */
+  height: auto !important;
+  min-height: min-content !important;
   padding: 0 !important;
   filter: drop-shadow(0 0 0 var(--color-3)) drop-shadow(0 10px 0 rgba(0,0,0,.18));
+  box-shadow: 0 0 0 2px var(--color-3), 0 8px 16px rgba(0,0,0,0.2);
 }
 
 /* Caja interna ocupa todo y scrollea si hace falta */
@@ -1143,4 +1146,5 @@ div.flex-column p {
   align-items: center;
   justify-content: center;
   scrollbar-gutter: stable both-edges;
+  border-radius: 12px;
 }
