@@ -28,4 +28,5 @@
   window.addEventListener('load', regen);
   window.addEventListener('resize', regen);
   window.addEventListener('clouds:rendered', regen);
+  setInterval(regen, 420);
 })();

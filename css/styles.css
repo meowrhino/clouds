@@ -768,7 +768,6 @@ div.flex-column p {
   min-height: min-content !important;
   padding: 0 !important;
   filter: drop-shadow(0 0 0 var(--color-3)) drop-shadow(0 10px 0 rgba(0,0,0,.18));
-  box-shadow: 0 0 0 2px var(--color-3), 0 8px 16px rgba(0,0,0,0.2);
 }
 
 .popup .box {

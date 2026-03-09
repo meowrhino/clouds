@@ -339,6 +339,10 @@ function resolveOverlapsInSection(section, iterations = 120) {
           let bLeft = parseFloat(b.style.left) || bSafeW;
           let bTop = parseFloat(b.style.top) || bSafeH;
 
+          // usa la altura real de la sección (puede ser 140vh, 210vh, etc.)
+          const aSectionVH = parseFloat(a.dataset.sectionVh || "") || 100;
+          const bSectionVH = parseFloat(b.dataset.sectionVh || "") || 100;
+
           const acx = (ra.left + ra.right) / 2,
             acy = (ra.top + ra.bottom) / 2;
           const bcx = (rb.left + rb.right) / 2,
@@ -359,12 +363,12 @@ function resolveOverlapsInSection(section, iterations = 120) {
           aTop = clamp(
             aTop + dirY * pushY,
             aSafeH,
-            Math.max(aSafeH, 100 - ah - aSafeH)
+            Math.max(aSafeH, aSectionVH - ah - aSafeH)
           );
           bTop = clamp(
             bTop - dirY * pushY,
             bSafeH,
-            Math.max(bSafeH, 100 - bh - bSafeH)
+            Math.max(bSafeH, bSectionVH - bh - bSafeH)
           );
 
           a.style.left = `${aLeft}vw`;
