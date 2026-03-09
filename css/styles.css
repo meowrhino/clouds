@@ -492,7 +492,7 @@
 
   /* Popup sizing knobs */
   --popup-margin: clamp(12px, 3vw, 36px);
-  --popup-maxw-desktop: 920px;
+  --popup-maxw-desktop: 1020px;
 }
 
 @media (max-width: 480px) {
@@ -784,9 +784,8 @@ div.flex-column p {
   height: 100% !important;
   overflow: auto !important;
   box-sizing: border-box;
-  padding: clamp(16px, 3vw, 32px) clamp(20px, 5vw, 48px);
+  padding: 13% 11%;          /* % keeps content in cloud's safe zone */
   background: var(--color-2);
-  clip-path: none;           /* don't clip popup content to cloud shape */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -806,14 +805,14 @@ div.flex-column p {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  padding: 20px;
+  gap: clamp(10px, 2vw, 20px);
+  padding: clamp(8px, 1.5vw, 16px);
   width: 100%;
 }
 
 .color-rect {
   position: relative;
-  width: 10%;
+  width: 8%;
   aspect-ratio: 1;
   cursor: pointer;
   border-radius: 8px;
@@ -837,15 +836,20 @@ div.flex-column p {
 
 .palette-buttons {
   display: grid;
-  grid-template-columns: repeat(7, minmax(120px, 1fr));
-  gap: clamp(6px, 1vw, 12px);
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(4px, 0.8vw, 8px);
   align-items: start;
-  padding: 20px;
+  width: 100%;
 }
 
 .palette-buttons .palette-column { display: contents; }
 
-.palette-btn { white-space: nowrap; min-height: 32px; }
+.palette-btn {
+  white-space: nowrap;
+  min-height: 28px;
+  font-size: clamp(11px, 1.4vw, 14px);
+  padding: 4px 6px;
+}
 
 /* === Open Fun trigger === */
 
@@ -863,12 +867,8 @@ div.flex-column p {
 
 /* === Responsive === */
 
-@media (max-width: 1199px) {
-  .palette-buttons { grid-template-columns: repeat(5, minmax(120px, 1fr)); }
-}
-
 @media (max-width: 600px) {
-  .palette-buttons { grid-template-columns: repeat(3, minmax(120px, 1fr)); }
+  .palette-buttons { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 480px) {
