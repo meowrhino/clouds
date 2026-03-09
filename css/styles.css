@@ -268,6 +268,8 @@
     99.426% 44.728%
   );
 
+  /* === Palettes === */
+
   /*propias*/
   /*original*/
   --original-color-1: #221e33;
@@ -281,7 +283,7 @@
   --burnt-color-3: #f2a17a;
   --burnt-color-4: #f4f4f4;
 
-  /*monochrome*/
+  /*monochrome (default)*/
   --color-1: #353535;
   --color-2: #f9d67b;
   --color-3: #fcfaf1;
@@ -399,7 +401,7 @@
   --orangeOracle-color-3: #ffc859;
   --orangeOracle-color-4: #ffe6c7;
 
-  /*coolTheyThem*/
+  /*coolTheyThem (same values as dino — kept as separate named palette)*/
   --coolTheyThem-color-1: #071a52;
   --coolTheyThem-color-2: #086972;
   --coolTheyThem-color-3: #068888;
@@ -485,38 +487,29 @@
   --umbrella-color-3: #bb8493;
   --umbrella-color-4: #dbafa0;
 
-  --sections: 1; /* número de pantallas; el JS puede actualizarlo dinámicamente */
+  --sections: 1;
   --halo-scale: 1.06;
+
+  /* Popup sizing knobs */
+  --popup-margin: clamp(12px, 3vw, 36px);
+  --popup-maxw-desktop: 820px;
 }
 
-/* Todo lo que está dentro de la zona de contenido será responsive */
-/* Responsive font sizes: menos reducción en móviles */
+@media (max-width: 480px) {
+  :root {
+    --popup-margin: clamp(16px, 6vw, 32px);
+  }
+}
+
+/* === Typography === */
+
+/* Responsive font sizes */
 .container--content h1 { font-size: clamp(34px, 6.5vw, 60px); }
 .container--content h2 { font-size: clamp(26px, 5vw, 40px); }
 .container--content h3 { font-size: clamp(22px, 4vw, 36px); }
 .container--content h4 { font-size: clamp(18px, 3.2vw, 26px); }
 .container--content h5 { font-size: clamp(16px, 2.6vw, 20px); }
-
-/* Enlaces dentro de nubes (mínimo un poco mayor) */
 .container--content .box a { font-size: clamp(12px, 2.2vw, 20px); }
-
-/* Mantén tamaños del popup y el trigger tal cual están (no añado nada ahí) */
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  position: relative;
-  /* So that .dot-container is positioned relative to the body */
-}
-
-body,
-.box,
-.pre-box,
-h1,
-.point {
-  transition: background-color 0.5s ease, color 0.5s ease, text-shadow 0.5s ease;
-}
 
 h1,
 h2,
@@ -534,60 +527,47 @@ h5 {
 h1 {
   color: var(--color-4);
   text-shadow: 1.5px 2.5px 1px var(--color-3),
-    /* Primera sombra */ -1.5px -2.5px 1px var(--color-3);
-  /* Segunda sombra */
+    -1.5px -2.5px 1px var(--color-3);
   font-size: 60px;
-
   letter-spacing: -4px;
 }
 
-/* Media query for mobile devices */
 @media (max-width: 600px) {
   h1 {
     font-size: 32px;
-    /* Same size as h3 */
     letter-spacing: -3px;
-    /* Adjust letter-spacing to match h3 */
   }
 }
 
 h2 {
   color: var(--color-4);
   text-shadow: 1px 2px 1px var(--color-3),
-    /* Primera sombra */ -1px -2px 1px var(--color-3);
-  /* Segunda sombra */
+    -1px -2px 1px var(--color-3);
   font-size: 40px;
-
   letter-spacing: -3.5px;
 }
 
 h3 {
   color: var(--color-4);
   text-shadow: 1px 2px 1px var(--color-3),
-    /* Primera sombra */ -1px -2px 1px var(--color-3);
-  /* Segunda sombra */
+    -1px -2px 1px var(--color-3);
   font-size: 32px;
-
   letter-spacing: -3px;
 }
 
 h4 {
   color: var(--color-4);
   text-shadow: 1px 2px 1px var(--color-3),
-    /* Primera sombra */ -1px -2px 1px var(--color-3);
-  /* Segunda sombra */
+    -1px -2px 1px var(--color-3);
   font-size: 24px;
-
   letter-spacing: -2.5px;
 }
 
 h5 {
   color: var(--color-4);
   text-shadow: 0.3px 0.6px 0.3px var(--color-3),
-    /* Primera sombra */ -0.3px -0.6px 0.3px var(--color-3);
-  /* Segunda sombra */
+    -0.3px -0.6px 0.3px var(--color-3);
   font-size: 16px;
-
   letter-spacing: -2px;
 }
 
@@ -596,59 +576,78 @@ a {
   color: var(--color-4);
   text-decoration: none;
   text-shadow: 0.3px 0.6px 0.3px var(--color-1),
-    /* Primera sombra */ -0.3px -0.6px 0.3px var(--color-1);
-  /* Segunda sombra */
+    -0.3px -0.6px 0.3px var(--color-1);
+}
+
+/* === Layout === */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+body {
+  background-color: var(--color-1);
+  min-height: 100dvh;
 }
 
 .container {
-  min-height: 100dvh; /* permite que la página crezca con las secciones */
-}
-
-.container--title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 100dvh;
 }
 
 .container--content {
   display: flex;
   flex-direction: column;
   position: relative;
-  height: auto; /* altura automática; las secciones marcan el alto total */
-  min-height: calc(
-    var(--sections, 1) * 100dvh
-  ); /* el JS puede ajustar --sections */
+  height: auto;
+  min-height: calc(var(--sections, 1) * 100dvh);
 }
 
-body {
-  margin: 0;
-  background-color: var(--color-1);
-  min-height: 100dvh; /* permite scroll más allá del viewport */
+/* === Transitions === */
+
+body,
+.box,
+.pre-box,
+h1,
+.point {
+  transition: background-color 0.5s ease, color 0.5s ease, text-shadow 0.5s ease;
 }
+
+/* === Dots background === */
 
 .point {
   position: absolute;
   color: var(--color-2);
   font-size: 128px;
-  /* Point size */
   line-height: 0;
-  /*asi hay por arriba tambien*/
 }
+
+.dot-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* === Cloud components === */
 
 .box {
   position: relative;
   clip-path: var(--nube);
-
   background-color: var(--color-2);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   font-family: "Inknut Antiqua", serif;
+  z-index: 2;
 }
 
 .pre-box {
@@ -656,19 +655,12 @@ body {
   justify-content: center;
   align-items: center;
   position: absolute;
-}
-
-/* stacking: texto por encima; al pasar el ratón, traer nube al frente */
-.pre-box {
   z-index: 1;
 }
+
 .pre-box:hover,
 .pre-box:focus-within {
   z-index: 5;
-}
-.box {
-  position: relative;
-  z-index: 2;
 }
 
 .pre-box::before {
@@ -676,7 +668,7 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%) scale(var(--halo-scale)); /* centra y escala halo */
+  transform: translate(-50%, -50%) scale(var(--halo-scale));
   background-position: center;
   width: 100%;
   height: 100%;
@@ -691,211 +683,51 @@ body {
     drop-shadow(-5px -5px 5px rgba(0, 0, 0, 0.3));
 }
 
-/*
-ideas para sombra en pre-box
-.box-shadow {
-    width: 200px;
-    height: 200px;
-    background-color: var(--color-1);
-    clip-path: var(--nube);
+/* === Box variants === */
 
-    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
-  }
-
-  .container > * {
-    text-shadow: 20px 2px 5px rgba(0, 0, 0, 1);
-}
-
-  */
 .box--title {
   width: 30vw;
   text-align: center;
   max-width: 100%;
 }
 
-/* @media (max-width: 600px) {
-
-    .pre-box::before {
-        width: 100%;
-        height: 100%;
-    }
-
-    .box--title,
-    .box--palette {
-        width: 90%;
-    }
-} */
-
-.box--palette {
-  width: 90%;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Responsive popup */
-.popup .pre-box {
-  width: 80%;
-}
-
-.popup .box {
-  width: 100%;
-  padding: 2%;
-}
-
-.pre-box.box--palette {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 200px;
-  z-index: 1;
-}
-
 .box--palette {
   position: relative;
   width: 100%;
   height: 100%;
-
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.dot-container {
-  position: absolute;
-  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+/* === Category sections === */
+
+.category-section {
   width: 100%;
-  height: 100%; /* sigue la altura del padre automáticamente */
-  z-index: -1;
-  pointer-events: none; /* el fondo no intercepta clics */
-  overflow: hidden;
+  position: relative;
+  overflow: visible;
 }
 
-/* Si .dot-container está dentro de .container--content, que cubra TODO su alto */
-.container--content > .dot-container {
-  position: absolute;
-  inset: 0;
+.clouds-container {
+  position: relative;
   width: 100%;
   height: 100%;
-  min-height: 100%;
-  z-index: -1;
-  pointer-events: none;
+  padding: 12vh 3vw 3vh 12vh;
+  box-sizing: border-box;
 }
 
-/* Alternativa: fondo fijo al viewport (no se corta nunca, no se desplaza con el scroll) */
-.dot-container.is-fixed {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-}
-
-.popup-trigger {
-  z-index: 1;
-  top: 100px;
-  right: 100px;
-  cursor: pointer;
-  color: var(--color-4);
-  z-index: 3;
-}
-
-.popup {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+.category-title {
+  position: absolute;
+  top: 10vh;
+  left: 10vw;
   z-index: 2;
-}
-
-.popup.active {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup .pre-box {
-  position: relative;
-  padding: 10px;
-  width: 60vw;
-}
-
-.popup .box {
-  background-color: var(--color-2);
-  position: relative;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.close-popup {
-  position: absolute;
-  top: 100px;
-  right: 100px;
-  cursor: pointer;
+  pointer-events: none;
+  font-size: clamp(18px, 3.5vw, 32px);
   color: var(--color-4);
-  z-index: 3;
+  text-shadow: 1px 2px 1px var(--color-3), -1px -2px 1px var(--color-3);
 }
 
-.color-grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 20px;
-  padding: 20px;
-  width: 100%;
-}
-
-.color-rect {
-  position: relative;
-  width: 10%;
-  aspect-ratio: 1;
-  cursor: pointer;
-  border-radius: 8px;
-  border: #cccccc 2px dotted;
-}
-
-.color-rect[data-color="1"] {
-  background-color: var(--color-1);
-}
-
-.color-rect[data-color="2"] {
-  background-color: var(--color-2);
-}
-
-.color-rect[data-color="3"] {
-  background-color: var(--color-3);
-}
-
-.color-rect[data-color="4"] {
-  background-color: var(--color-4);
-}
-
-.color-picker {
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-
-.palette-buttons {
-  display: flex;
-  gap: 10px;
-  padding: 20px;
-}
-
-.palette-column {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+/* === Flex-column cloud content === */
 
 .flex-column {
   flex-direction: column;
@@ -914,71 +746,8 @@ div.flex-column p {
 .box--title.flex-column h4 { margin: 0 0 0.25em; line-height: 1.1; }
 .box--title a { display: inline-block; line-height: 1; }
 
-/* Cada categoría ocupa una altura de viewport */
-.category-section {
-  width: 100%;
-  position: relative;
-  overflow: visible;
-}
+/* === Popup === */
 
-/* Espacio de seguridad para que el borde blanco no se corte */
-.clouds-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 12vh 3vw 3vh 12vh; /* ya veníamos con padding; subimos el top/left */
-  box-sizing: border-box; /* la altura 100% incluye el padding */
-}
-
-.category-title {
-  position: absolute;
-  top: 10vh;
-  left: 10vh;
-  z-index: 2; /* sobre el canvas y nubes */
-  pointer-events: none; /* no roba clics */
-  font-size: clamp(18px, 3.5vw, 32px);
-  color: var(--color-4);
-  text-shadow: 1px 2px 1px var(--color-3), -1px -2px 1px var(--color-3);
-}
-
-#open-fun {
-  position: fixed;         /* se ancla al viewport */
-  right: 3vw;
-  bottom: 3vh;
-  width: clamp(180px, 22vw, 320px);
-  aspect-ratio: 1.55 / 1;
-}
-#open-fun .box { width: 100%; height: 100%; }
-
-/* opcional, para notches/iOS */
-#open-fun {
-  right: max(3vw, env(safe-area-inset-right));
-  bottom: max(3vh, env(safe-area-inset-bottom));
-}
-
-/* Paso 1: sólo fijarlo y elevarlo */
-#open-fun {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  z-index: 9999;      /* por encima de nubes y popups */
-  pointer-events: auto;
-}
-#open-fun .box { width: 100%; height: 100%; }  /* que rellene su wrapper */
-
-/* Paso 2: tamaño fluido y safe-area */
-#open-fun {
-  width: clamp(160px, 18vw, 300px);
-  aspect-ratio: 1.55 / 1;
-  right: max(24px, env(safe-area-inset-right));
-  bottom: max(24px, env(safe-area-inset-bottom));
-}
-
-
-/* ===== Meowrhino Responsive Patch (2025-08-26) ===== */
-/* Keep this block at the very end so it overrides earlier rules */
-
-/* popup overlay: center a cloud with safe max sizes */
 .popup {
   position: fixed;
   inset: 0;
@@ -988,144 +757,13 @@ div.flex-column p {
   background: rgba(0,0,0,.45);
   z-index: 1000;
 }
+
 .popup.active { display: flex; }
 
-/* size the inner cloud responsively via clamp() */
 .popup .pre-box {
-  position: relative;
-  width: clamp(360px, 86vw, 960px);
-  aspect-ratio: 16 / 10;
-}
-.popup .box {
-  width: 100%;
-  height: 100%;
-  padding: clamp(12px, 2.4vw, 28px);
-  overflow: auto;                     /* avoid clipped chips */
-  box-sizing: border-box;
-}
-
-/* Ensure the white outline always shows by drawing stroke on wrapper */
-.popup .pre-box { 
-  filter: drop-shadow(0 0 0 var(--color-3)) drop-shadow(0 10px 0 rgba(0,0,0,.18));
-}
-
-/* trigger: fixed bottom-right and fluid size */
-#open-fun {
-  position: fixed !important;
-  right: max(24px, env(safe-area-inset-right));
-  bottom: max(24px, env(safe-area-inset-bottom));
-  width: clamp(160px, 18vw, 300px);
-  aspect-ratio: 16 / 10;
-  z-index: 9999;
-}
-#open-fun .box { width: 100%; height: 100%; }
-
-/* Tablet adjustments */
-@media (max-width: 1199px) {
-  .popup .pre-box { width: clamp(340px, 80vw, 720px); }
-}
-
-/* Mobile compact */
-@media (max-width: 480px) {
-  .popup .pre-box { width: 92vw; max-height: 72vh; }
-  .popup .box { padding: 14px; }
-  .palette-btn, .popup .box button { font-size: 14px; min-height: 32px; }
-}
-/* ===== End Responsive Patch ===== */
-
-
-/* === Palette grid responsive columns === */
-.palette-buttons{
-  display: grid;
-  grid-template-columns: repeat(7, minmax(120px, 1fr));
-  gap: clamp(6px, 1vw, 12px);
-  align-items: start;
-}
-.palette-buttons .palette-column{ display: contents; } /* flatten children into the grid */
-.palette-btn{ white-space: nowrap; min-height: 32px; }
-
-@media (max-width: 1199px){
-  .palette-buttons{ grid-template-columns: repeat(5, minmax(120px, 1fr)); }
-}
-@media (max-width: 600px){
-  .palette-buttons{ grid-template-columns: repeat(3, minmax(120px, 1fr)); }
-}
-
-
-:root{ --popup-margin: clamp(12px, 3.5vw, 40px); }
-
-.popup .pre-box {
-  position: relative;
-  width: min(980px, calc(100vw - var(--popup-margin) * 2));
-  aspect-ratio: 16 / 10;
-}
-
-
-/* === Popup sizing refine (desktop smaller, mobile no clip) === */
-:root { --popup-margin: clamp(12px, 3vw, 36px); }
-.popup { align-items: center; justify-content: center; }
-
-.popup .pre-box {
-  width: min(860px, calc(100vw - var(--popup-margin)*2));
-  max-height: calc(100vh - var(--popup-margin)*2);
-  aspect-ratio: 16 / 10;
-}
-.popup .box {
-  width: 100%; height: 100%;
-  box-sizing: border-box;
-  overflow: auto;
-  padding: clamp(12px, 2.2vw, 24px);
-  scrollbar-gutter: stable both-edges;
-}
-
-@media (max-width: 480px){
-  .popup .pre-box {
-    width: calc(100vw - var(--popup-margin)*2);
-    max-height: calc(100vh - var(--popup-margin)*2);
-  }
-  .popup .box { padding: 14px; }
-}
-/* === End refine === */
-
-
-
-/* ==============================
-   POPUP SIZE KNOBS — EDIT HERE
-   ------------------------------
-   • --popup-margin: márgenes exteriores del popup en px/vw
-   • --popup-maxw-desktop: ancho máximo en desktop (sube/baja)
-   • --popup-aspect: relación ancho/alto del cloud del popup
-   En móvil redefinimos --popup-margin para más aire si quieres.
-   ============================== */
-:root{
-  --popup-margin: clamp(12px, 3vw, 36px);      /* 👈 AJUSTA AQUÍ (margen) */
-  --popup-maxw-desktop: 820px;                 /* 👈 AJUSTA AQUÍ (ancho desktop) */
-  /* --popup-aspect: 16 / 10;   Eliminado según instrucciones */
-}
-@media (max-width: 480px){
-  :root{
-    --popup-margin: clamp(16px, 6vw, 32px);    /* 👈 margen en móvil aumentado */
-  }
-}
-
-/* Unificamos estilos del popup (sobre-escribe los previos) */
-.popup{
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,.45);
-  z-index: 1000;
-}
-.popup.active{ display:flex; }
-
-/* Pre-box del popup: tamaño consistente con margen y aspecto */
-.popup .pre-box{
   position: relative !important;
   width: min(var(--popup-maxw-desktop), calc(100vw - var(--popup-margin)*2)) !important;
   max-height: calc(100vh - var(--popup-margin)*2) !important;
-  /* aspect-ratio: var(--popup-aspect) !important;  Eliminado según instrucciones */
   height: auto !important;
   min-height: min-content !important;
   padding: 0 !important;
@@ -1133,8 +771,7 @@ div.flex-column p {
   box-shadow: 0 0 0 2px var(--color-3), 0 8px 16px rgba(0,0,0,0.2);
 }
 
-/* Caja interna ocupa todo y scrollea si hace falta */
-.popup .box{
+.popup .box {
   width: 100% !important;
   height: 100% !important;
   overflow: auto !important;
@@ -1147,4 +784,88 @@ div.flex-column p {
   justify-content: center;
   scrollbar-gutter: stable both-edges;
   border-radius: 12px;
+}
+
+.popup-trigger {
+  cursor: pointer;
+  color: var(--color-4);
+}
+
+/* === Color grid === */
+
+.color-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+}
+
+.color-rect {
+  position: relative;
+  width: 10%;
+  aspect-ratio: 1;
+  cursor: pointer;
+  border-radius: 8px;
+  border: #cccccc 2px dotted;
+}
+
+.color-rect[data-color="1"] { background-color: var(--color-1); }
+.color-rect[data-color="2"] { background-color: var(--color-2); }
+.color-rect[data-color="3"] { background-color: var(--color-3); }
+.color-rect[data-color="4"] { background-color: var(--color-4); }
+
+.color-picker {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* === Palette buttons (responsive grid) === */
+
+.palette-buttons {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(120px, 1fr));
+  gap: clamp(6px, 1vw, 12px);
+  align-items: start;
+  padding: 20px;
+}
+
+.palette-buttons .palette-column { display: contents; }
+
+.palette-btn { white-space: nowrap; min-height: 32px; }
+
+/* === Open Fun trigger === */
+
+#open-fun {
+  position: fixed !important;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
+  width: clamp(160px, 18vw, 300px);
+  aspect-ratio: 16 / 10;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+#open-fun .box { width: 100%; height: 100%; }
+
+/* === Responsive === */
+
+@media (max-width: 1199px) {
+  .palette-buttons { grid-template-columns: repeat(5, minmax(120px, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .palette-buttons { grid-template-columns: repeat(3, minmax(120px, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  .palette-btn,
+  .popup .box button {
+    font-size: 14px;
+    min-height: 32px;
+  }
 }

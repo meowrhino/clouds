@@ -63,12 +63,8 @@ function randSize(base) {
 function normalizeLink(link) {
   if (!link) return "#";
   const s = String(link).trim();
-  if (/^(https?:|mailto:|tel:\/\/|\/\/|#)/i.test(s)) return s;
+  if (/^(https?:|mailto:|tel:|\/\/|#)/i.test(s)) return s;
   return new URL(s, BASE).toString();
-}
-function getRandomFactor() {
-  const isMobile = window.matchMedia("(max-width: 600px)").matches;
-  return isMobile ? 0.95 + Math.random() * 1.2 : 0.85 + Math.random() * 1.2;
 }
 // Romanos hasta 3999 (minúsculas)
 function romanize(n) {
@@ -207,8 +203,9 @@ function createCloud(item, containerEl, category) {
   pre.style.aspectRatio = ASPECT; // fallback
   pre.style.setProperty("--cloud-ratio", ASPECT);
 
-  // márgenes de seguridad y altura de sección
-  const sectionVH = sectionVHFor(category);
+  // márgenes de seguridad y altura de sección (con multiplicador móvil)
+  const isMob = window.matchMedia(`(max-width: ${MOBILE_BREAK}px)`).matches;
+  const sectionVH = sectionVHFor(category) * (isMob ? 1.4 : 1);
   const minLeft = SAFE_VW;
   const maxLeft = Math.max(SAFE_VW, 100 - widthVW - SAFE_VW);
   const leftVW = minLeft + Math.random() * Math.max(0, maxLeft - minLeft);
@@ -394,7 +391,10 @@ function throttle(fn, ms) {
   };
 }
 
+let _watchInit = false;
 function watchZoomResize() {
+  if (_watchInit) return; // evita re-registrar listeners en cada re-render
+  _watchInit = true;
   let last = window.devicePixelRatio;
   setInterval(() => {
     if (window.devicePixelRatio !== last) {
@@ -434,9 +434,12 @@ function renderByCategory(rawData) {
 
   // Hero y altura total (héroe + categorías)
   const HERO_ENABLED = true;
+  const MOBILE_SECTION_MULT = 1.4;
+  const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAK}px)`).matches;
+  const mult = isMobile ? MOBILE_SECTION_MULT : 1;
   const totalVh =
     (HERO_ENABLED ? sectionVHFor("__hero__") : 0) +
-    enabled.reduce((sum, [cat]) => sum + sectionVHFor(cat), 0);
+    enabled.reduce((sum, [cat]) => sum + sectionVHFor(cat) * mult, 0);
   ROOT.style.height = `${totalVh}vh`;
   ROOT.style.setProperty("--sections", String(enabled.length)); // por compat
   const wrapper = ROOT.closest(".container");
@@ -477,7 +480,6 @@ function renderByCategory(rawData) {
     section.dataset.category = category;
 
     // sección pantalla completa sin depender del CSS externo
-    const MOBILE_SECTION_MULT = 1.4; const mult = window.matchMedia('(max-width: 480px)').matches ? MOBILE_SECTION_MULT : 1;
     section.style.height = `${sectionVHFor(category) * mult}vh`;
     section.style.width = "100vw";
     section.style.position = "relative";
@@ -490,7 +492,7 @@ function renderByCategory(rawData) {
     title.textContent = category;
     title.style.position = "absolute";
     title.style.top = "10vh";
-    title.style.left = "10vh";
+    title.style.left = "10vw";
     title.style.zIndex = "2";
     title.style.pointerEvents = "none";
     title.style.fontSize = "clamp(18px, 3.5vw, 32px)";
@@ -525,7 +527,11 @@ function renderByCategory(rawData) {
 // === Inicio ===
 fetch("proyectos.json")
   .then((r) => r.json())
-  .then(renderByCategory)
+  .then((data) => {
+    window.CLOUDS_DATA = data;
+    renderByCategory(data);
+    attachMobileRerender();
+  })
   .catch((e) => console.error("Error cargando proyectos:", e));
 
 
@@ -556,7 +562,7 @@ function updatePositions(){
   }
   
   if (!window.CLOUDS_DATA){
-    fetch("proyectos.json").then(r=>r.json()).then(d=>{ window.CLOUDS_DATA=d; rerender(); });
+    fetch("proyectos.json").then(r=>r.json()).then(d=>{ window.CLOUDS_DATA=d; rerender(); }).catch(e => console.error("Error recargando proyectos:", e));
   } else {
     rerender();
   }

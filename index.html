@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--<title>Patrón de Puntos</title>-->
+  <title>meowrhino clouds</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@300&display=swap" rel="stylesheet">
@@ -16,14 +16,6 @@
 
   <div class="container container--content">
   </div>
-
-  <!-- <div class="pre-box box--palette" data-fixed="1">
-    <div class="box box--palette">
-      <span class="popup-trigger">
-        <h4>open fun</h4>
-      </span>
-    </div>
-  </div> -->
 
   <div id="palette-popup" class="popup">
 <div class="pre-box--shadow">
@@ -90,16 +82,16 @@
           </div>
           <div class="color-grid">
             <div class="color-rect" data-color="1">
-              <input type="color" class="color-picker" data-color-var="--color-1">
+              <input type="color" class="color-picker" data-color-var="--color-1" aria-label="Color 1">
             </div>
             <div class="color-rect" data-color="2">
-              <input type="color" class="color-picker" data-color-var="--color-2">
+              <input type="color" class="color-picker" data-color-var="--color-2" aria-label="Color 2">
             </div>
             <div class="color-rect" data-color="3">
-              <input type="color" class="color-picker" data-color-var="--color-3">
+              <input type="color" class="color-picker" data-color-var="--color-3" aria-label="Color 3">
             </div>
             <div class="color-rect" data-color="4">
-              <input type="color" class="color-picker" data-color-var="--color-4">
+              <input type="color" class="color-picker" data-color-var="--color-4" aria-label="Color 4">
             </div>
           </div>
 
@@ -111,7 +103,6 @@
     </div>
   </div>
 
-  <!-- al final del <body> -->
 <div id="open-fun" class="pre-box box--palette" data-fixed="1" aria-controls="palette-popup" aria-expanded="false">
   <div class="box box--palette">
     <span class="popup-trigger">
@@ -130,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   
 
-  <script defer src="script/randomPosition.js"></script>
   <script defer src="script/containerContentContent.js"></script>
   <script defer src="script/polkadotsbg.js"></script>
   <script defer src="script/changepalette.js"></script>

@@ -3,7 +3,7 @@ function adjustBoxSizes() {
     const preboxes = document.querySelectorAll('.pre-box:not(.popup .pre-box)');
     const popupBoxes = document.querySelectorAll('.popup .box');
     const popupPreboxes = document.querySelectorAll('.popup .pre-box');
-    const aspectRatio = 1.55;
+    const aspectRatio = 1.6; // unificado con ASPECT en containerContentContent.js
 
     // Regular boxes
     boxes.forEach(box => {
