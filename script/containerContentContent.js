@@ -8,15 +8,15 @@ const DISABLED_CATEGORIES = new Set(["hidden"]); // añade aquí otras que quier
 const CAT_SIZE = {
   __hero__: 50, // ancho base en vw
   "main quests": 30,      // 1 proyecto
-  "side quests": 8,        // 16 proyectos
+  "side quests": 10,       // 16 proyectos
   WIP: 12,                 // 4 proyectos
   "meowrhino's world": 18, // 7 proyectos
-  tools: 8,                // 17 proyectos
-  games: 10,               // 10 proyectos
-  experiments: 8,           // 16 proyectos
+  tools: 10,               // 17 proyectos
+  games: 11,               // 10 proyectos
+  experiments: 10,          // 16 proyectos
   "social apps": 12,        // 5 proyectos
-  "unfinished apps": 7,     // 25 proyectos
-  texts: 10,               // 7 proyectos
+  "unfinished apps": 9,     // 25 proyectos
+  texts: 11,               // 7 proyectos
   misc: 10,                // 16 proyectos
   default: 22,
 };
@@ -24,14 +24,14 @@ const CAT_SIZE = {
 const CAT_SECTION_VH = {
   __hero__: 70,
   "main quests": 50,
-  "side quests": 150,       // 16 proyectos (antes era default 100)
+  "side quests": 190,       // 16 proyectos
   WIP: 80,                  // 4 proyectos
-  tools: 150,               // 17 proyectos
-  experiments: 150,          // 16 proyectos
+  tools: 190,               // 17 proyectos
+  experiments: 190,          // 16 proyectos
   "social apps": 80,         // 5 proyectos
-  "unfinished apps": 180,    // 25 proyectos (antes era default 100)
-  misc: 150,
-  default: 100,
+  "unfinished apps": 230,    // 25 proyectos
+  misc: 180,                // 16 proyectos
+  default: 110,
 };
 
 // Diales globales
