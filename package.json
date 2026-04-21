@@ -1,0 +1,24 @@
+{
+  "name": "clouds",
+  "version": "1.0.0",
+  "description": "_A tiny UI system to place interactive “clouds” on a canvas and open a **Fun Lab** popup to play with palettes & tags._",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meowrhino/clouds.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/meowrhino/clouds/issues"
+  },
+  "homepage": "https://github.com/meowrhino/clouds#readme",
+  "devDependencies": {
+    "node-html-parser": "^7.1.0"
+  }
+}

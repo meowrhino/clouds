@@ -529,6 +529,8 @@ function renderByCategory(rawData) {
 }
 
 // === Inicio ===
+// proyectos.json se mantiene sincronizado con neocities automáticamente
+// vía GitHub Action semanal (.github/workflows/sync-neocities.yml).
 fetch("proyectos.json")
   .then((r) => r.json())
   .then((data) => {
