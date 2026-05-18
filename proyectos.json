@@ -28,6 +28,24 @@
       ]
     },
     {
+      "name": "valentin",
+      "links": [
+        "https://meowrhino.github.io/valentin3/",
+        "https://meowrhino.github.io/valentin2/",
+        "https://meowrhino.github.io/valentin/",
+        "https://valentinbarrio.com"
+      ]
+    },
+    {
+      "name": "polroig",
+      "links": [
+        "https://meowrhino.github.io/polroig4/",
+        "https://meowrhino.github.io/polroig3/",
+        "https://meowrhino.github.io/polroig2/",
+        "https://meowrhino.github.io/polroig/"
+      ]
+    },
+    {
       "name": "mikesx cd's",
       "links": [
         "https://meowrhino.github.io/mikesx/",
@@ -117,13 +135,21 @@
     {
       "name": "noan cittadino",
       "links": [
+        "https://meowrhino.github.io/noan/",
         "https://noancittadino.com"
       ]
     },
     {
       "name": "930blurberrie",
       "links": [
+        "https://meowrhino.github.io/blurberri/",
         "https://930blurberrie.com"
+      ]
+    },
+    {
+      "name": "diarioBarbara",
+      "links": [
+        "https://meowrhino.github.io/diarioBarbara/"
       ]
     }
   ],
@@ -162,10 +188,9 @@
       ]
     },
     {
-      "name": "arxiu",
+      "name": "arxiu.pdf",
       "links": [
-        "https://arxiu.meowrhino.studio",
-        "https://meowrhino.github.io/arxiu/"
+        "https://arxiu.meowrhino.studio"
       ]
     },
     {
@@ -203,6 +228,12 @@
   ],
   "tools": [
     {
+      "name": "trackr",
+      "links": [
+        "https://meowrhino.github.io/trackr/"
+      ]
+    },
+    {
       "name": "moixi",
       "links": [
         "https://meowrhino.github.io/moixi/"
@@ -212,12 +243,6 @@
       "name": "retals",
       "links": [
         "https://meowrhino.github.io/retals/"
-      ]
-    },
-    {
-      "name": "trackr",
-      "links": [
-        "https://meowrhino.github.io/trackr/"
       ]
     },
     {
@@ -314,6 +339,30 @@
       "name": "faqAutonomos",
       "links": [
         "https://meowrhino.github.io/faqAutonomos/"
+      ]
+    },
+    {
+      "name": "VNGenerator",
+      "links": [
+        "https://meowrhino.github.io/VNGenerator/"
+      ]
+    },
+    {
+      "name": "ajutsCat",
+      "links": [
+        "https://meowrhino.github.io/ajutscat/"
+      ]
+    },
+    {
+      "name": "chords",
+      "links": [
+        "https://meowrhino.github.io/chords/"
+      ]
+    },
+    {
+      "name": "poporingGenerator",
+      "links": [
+        "https://meowrhino.github.io/poporingGenerator/"
       ]
     }
   ],
@@ -484,6 +533,12 @@
     }
   ],
   "social apps": [
+    {
+      "name": "miaumiau",
+      "links": [
+        "https://meowrhino.github.io/miaumiau/"
+      ]
+    },
     {
       "name": "piupiu",
       "links": [
