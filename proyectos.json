@@ -3,7 +3,7 @@
     {
       "name": "meowrhino.studio",
       "links": [
-        "meowrhino.studio/"
+        "https://meowrhino.studio/"
       ]
     }
   ],
@@ -15,34 +15,10 @@
       ]
     },
     {
-      "name": "maxito",
-      "links": [
-        "https://meowrhino.github.io/maxito/"
-      ]
-    },
-    {
       "name": "rikamichie",
       "links": [
         "https://meowrhino.github.io/rikamichie/",
         "https://rikamichie.com"
-      ]
-    },
-    {
-      "name": "valentin",
-      "links": [
-        "https://meowrhino.github.io/valentin3/",
-        "https://meowrhino.github.io/valentin2/",
-        "https://meowrhino.github.io/valentin/",
-        "https://valentinbarrio.com"
-      ]
-    },
-    {
-      "name": "polroig",
-      "links": [
-        "https://meowrhino.github.io/polroig4/",
-        "https://meowrhino.github.io/polroig3/",
-        "https://meowrhino.github.io/polroig2/",
-        "https://meowrhino.github.io/polroig/"
       ]
     },
     {
@@ -53,22 +29,35 @@
       ]
     },
     {
-      "name": "jaume clotet",
+      "name": "oriol colomer",
       "links": [
-        "https://meowrhino.github.io/jaumeclotet/",
-        "https://jaumeclotet.com"
+        "https://meowrhino.github.io/oriol-colomer/",
+        "https://meowrhino.github.io/oriol-colomerv0/"
       ]
     },
     {
-      "name": "conor",
+      "name": "lasadcum",
       "links": [
-        "https://meowrhino.github.io/conor/"
+        "https://meowrhino.github.io/lasadcum/",
+        "https://lasadcum.com"
       ]
     },
     {
-      "name": "paula barjau",
+      "name": "tat ara",
       "links": [
-        "https://meowrhino.github.io/paulabarjau/"
+        "https://tatara.cat",
+        "https://meowrhino.github.io/tatarav0/"
+      ]
+    },
+    {
+      "name": "polroig",
+      "links": [
+        "https://meowrhino.github.io/polroig1/",
+        "https://meowrhino.github.io/polroig-disenos/",
+        "https://meowrhino.github.io/polroig4/",
+        "https://meowrhino.github.io/polroig3/",
+        "https://meowrhino.github.io/polroig2/",
+        "https://meowrhino.github.io/polroig/"
       ]
     },
     {
@@ -97,6 +86,59 @@
       "links": [
         "https://meowrhino.github.io/twinMokakopa/",
         "https://analopezserrano.com"
+      ]
+    },
+    {
+      "name": "maxito",
+      "links": [
+        "https://meowrhino.github.io/maxito/"
+      ]
+    },
+    {
+      "name": "valentin",
+      "links": [
+        "https://meowrhino.github.io/valentin3/",
+        "https://meowrhino.github.io/valentin2/",
+        "https://meowrhino.github.io/valentin/",
+        "https://valentinbarrio.com"
+      ]
+    },
+    {
+      "name": "jaume clotet",
+      "links": [
+        "https://meowrhino.github.io/jaumeclotet/",
+        "https://jaumeclotet.com"
+      ]
+    },
+    {
+      "name": "conor",
+      "links": [
+        "https://meowrhino.github.io/conor/"
+      ]
+    },
+    {
+      "name": "quien no corre, vuela",
+      "links": [
+        "https://quiennocorrevuela.com"
+      ]
+    },
+    {
+      "name": "barbara wong",
+      "links": [
+        "https://meowrhino.github.io/barbaraWong/"
+      ]
+    },
+    {
+      "name": "viciostorpes",
+      "links": [
+        "https://meowrhino.github.io/viciostorpes/",
+        "https://meowrhino.github.io/viciostorpesV2/"
+      ]
+    },
+    {
+      "name": "paula barjau",
+      "links": [
+        "https://meowrhino.github.io/paulabarjau/"
       ]
     },
     {
@@ -151,20 +193,76 @@
       "links": [
         "https://meowrhino.github.io/diarioBarbara/"
       ]
-    }
-  ],
-  "WIP": [
+    },
     {
-      "name": "barbara wong",
+      "name": "almarbra",
       "links": [
-        "https://meowrhino.github.io/barbaraWong/"
+        "https://meowrhino.github.io/almarbra/",
+        "https://meowrhino.github.io/almarbrav0/",
+        "https://meowrhino.github.io/almarbraSveltia/"
       ]
     },
     {
-      "name": "viciostorpes",
+      "name": "linda iriane",
       "links": [
-        "https://meowrhino.github.io/viciostorpes/",
-        "https://meowrhino.github.io/viciostorpesV2/"
+        "https://meowrhino.github.io/lindaporn/"
+      ]
+    },
+    {
+      "name": "alekos",
+      "links": [
+        "https://meowrhino.github.io/alekos/"
+      ]
+    },
+    {
+      "name": "la diegol",
+      "links": [
+        "https://meowrhino.github.io/ladiegol/",
+        "https://meowrhino.github.io/ladiegolv0/"
+      ]
+    },
+    {
+      "name": "anna carreras",
+      "links": [
+        "https://meowrhino.github.io/annaCarreras/",
+        "https://meowrhino.github.io/annaCarreras-disenos/",
+        "https://annacarreras.com"
+      ]
+    },
+    {
+      "name": "lisa tarot",
+      "links": [
+        "https://meowrhino.github.io/lisa/"
+      ]
+    },
+    {
+      "name": "miss pepi",
+      "links": [
+        "https://meowrhino.github.io/misspepi/"
+      ]
+    },
+    {
+      "name": "laorbit",
+      "links": [
+        "https://meowrhino.github.io/laorbit/"
+      ]
+    },
+    {
+      "name": "wushu sanchai",
+      "links": [
+        "https://wushusanchai.com"
+      ]
+    },
+    {
+      "name": "quien no corre, vuela",
+      "links": [
+        "https://quiennocorrevuela.com"
+      ]
+    },
+    {
+      "name": "camille",
+      "links": [
+        "https://meowrhino.github.io/camille/"
       ]
     },
     {
@@ -215,14 +313,22 @@
     {
       "name": "cielo en barcelona",
       "links": [
+        "https://meowrhino.github.io/cielov0/",
         "https://meowrhino.github.io/cielo/"
       ]
     },
     {
       "name": "becas digMeow",
       "links": [
+        "https://meowrhino.github.io/becasDigMeow/",
         "https://meowrhino.github.io/becasDigMeow_v1/",
         "https://meowrhino.github.io/becasDigMeow_v0/"
+      ]
+    },
+    {
+      "name": "descartes",
+      "links": [
+        "https://meowrhino.github.io/descartes/"
       ]
     }
   ],
@@ -364,6 +470,24 @@
       "links": [
         "https://meowrhino.github.io/poporingGenerator/"
       ]
+    },
+    {
+      "name": "blobGenerator",
+      "links": [
+        "https://meowrhino.github.io/blobGenerator/"
+      ]
+    },
+    {
+      "name": "afinador ukulele",
+      "links": [
+        "https://meowrhino.github.io/ukulele/"
+      ]
+    },
+    {
+      "name": "visualizer",
+      "links": [
+        "https://meowrhino.github.io/visualizer/"
+      ]
     }
   ],
   "games": [
@@ -389,6 +513,7 @@
     {
       "name": "minesweeper",
       "links": [
+        "https://meowrhino.github.io/minesweeper/",
         "https://meowrhino.github.io/etchASketch/"
       ]
     },
@@ -427,6 +552,24 @@
       "links": [
         "https://meowrhino.github.io/horseLife/"
       ]
+    },
+    {
+      "name": "midgard origins",
+      "links": [
+        "https://meowrhino.github.io/ragnarok/"
+      ]
+    },
+    {
+      "name": "elteto",
+      "links": [
+        "https://meowrhino.github.io/elteto/"
+      ]
+    },
+    {
+      "name": "pasatiempos",
+      "links": [
+        "https://meowrhino.github.io/pasatiempos/"
+      ]
     }
   ],
   "experiments": [
@@ -439,6 +582,7 @@
     {
       "name": "stars generator",
       "links": [
+        "https://meowrhino.github.io/randomStars2/",
         "https://meowrhino.github.io/randomStars/"
       ]
     },
@@ -451,6 +595,7 @@
     {
       "name": "iching",
       "links": [
+        "https://meowrhino.github.io/pakuafun/",
         "https://meowrhino.github.io/8guamusic1",
         "https://meowrhino.github.io/8guafuture1/",
         "https://meowrhino.github.io/trigrama/"
@@ -529,6 +674,30 @@
         "https://meowrhino.github.io/investigaciones_002/",
         "https://meowrhino.github.io/investigaciones_003/",
         "https://meowrhino.github.io/investigaciones_004/"
+      ]
+    },
+    {
+      "name": "ver la armonía",
+      "links": [
+        "https://meowrhino.github.io/music0/"
+      ]
+    },
+    {
+      "name": "hierba y ríos",
+      "links": [
+        "https://meowrhino.github.io/hierbaRios/"
+      ]
+    },
+    {
+      "name": "MEWS",
+      "links": [
+        "https://meowrhino.github.io/MEWS/"
+      ]
+    },
+    {
+      "name": "parlamalament",
+      "links": [
+        "https://meowrhino.github.io/parlamalament/"
       ]
     }
   ],
@@ -722,12 +891,22 @@
       "links": [
         "https://meowrhino.github.io/pdfs/"
       ]
+    },
+    {
+      "name": "meditest",
+      "links": [
+        "https://meowrhino.github.io/meditest/"
+      ]
     }
   ],
   "texts": [
     {
       "name": "notas",
       "links": [
+        "https://meowrhino.github.io/notas6/",
+        "https://meowrhino.github.io/notas1/",
+        "https://meowrhino.github.io/notas0/",
+        "https://meowrhino.github.io/notasX/",
         "https://meowrhino.github.io/notas5/",
         "https://meowrhino.github.io/notas4/",
         "https://meowrhino.github.io/notas3/",
@@ -738,6 +917,7 @@
     {
       "name": "TFG",
       "links": [
+        "https://meowrhino.github.io/tfg/",
         "https://meowrhino.cargo.site/tfg"
       ]
     },
@@ -917,6 +1097,36 @@
       "name": "odin-recipes",
       "links": [
         "https://meowrhino.github.io/odin-recipes/"
+      ]
+    },
+    {
+      "name": "kajiura",
+      "links": [
+        "https://meowrhino.github.io/kajiura/"
+      ]
+    },
+    {
+      "name": "RAADS-R amics",
+      "links": [
+        "https://meowrhino.github.io/RAADS-R_amics/"
+      ]
+    },
+    {
+      "name": "semana santa bcn 2026",
+      "links": [
+        "https://meowrhino.github.io/SSBCN26/"
+      ]
+    },
+    {
+      "name": "anella olímpica",
+      "links": [
+        "https://meowrhino.github.io/anella-olimpica/"
+      ]
+    },
+    {
+      "name": "taller escocesa",
+      "links": [
+        "https://meowrhino.github.io/tallerEscocesa/"
       ]
     }
   ],
